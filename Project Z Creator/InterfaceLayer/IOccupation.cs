@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project_Z_Creator.DatabaseLayer
+namespace Project_Z_Creator.InterfaceLayer
 {
-    public class CharacterDTO
+    internal interface IOccupation
     {
-        public string Name;
-        public int Cost;
     }
 }

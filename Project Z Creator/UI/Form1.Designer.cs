@@ -1,7 +1,7 @@
 ﻿
 namespace Project_Z_Creator
 {
-    partial class Form1
+    partial class Mainscreen
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +29,9 @@ namespace Project_Z_Creator
         /// </summary>
         private void InitializeComponent()
         {
-            this.lbChosenTraits = new System.Windows.Forms.ListBox();
+            this.lbPosTraits = new System.Windows.Forms.ListBox();
             this.cbOccupations = new System.Windows.Forms.ComboBox();
-            this.lbSkills = new System.Windows.Forms.ListBox();
+            this.lbNegTraits = new System.Windows.Forms.ListBox();
             this.cbPosTraits = new System.Windows.Forms.ComboBox();
             this.cbNegTraits = new System.Windows.Forms.ComboBox();
             this.lbPoints = new System.Windows.Forms.Label();
@@ -39,18 +39,19 @@ namespace Project_Z_Creator
             this.btSave = new System.Windows.Forms.Button();
             this.tbCost = new System.Windows.Forms.TextBox();
             this.lblOccupation = new System.Windows.Forms.Label();
-            this.lblName = new System.Windows.Forms.Label();
+            this.cbCharacters = new System.Windows.Forms.ComboBox();
+            this.btDelete = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // lbChosenTraits
+            // lbPosTraits
             // 
-            this.lbChosenTraits.FormattingEnabled = true;
-            this.lbChosenTraits.ItemHeight = 16;
-            this.lbChosenTraits.Location = new System.Drawing.Point(572, 77);
-            this.lbChosenTraits.Name = "lbChosenTraits";
-            this.lbChosenTraits.Size = new System.Drawing.Size(168, 132);
-            this.lbChosenTraits.TabIndex = 0;
-            this.lbChosenTraits.DoubleClick += new System.EventHandler(this.lbChosenTraits_DoubleClick);
+            this.lbPosTraits.FormattingEnabled = true;
+            this.lbPosTraits.ItemHeight = 16;
+            this.lbPosTraits.Location = new System.Drawing.Point(572, 108);
+            this.lbPosTraits.Name = "lbPosTraits";
+            this.lbPosTraits.Size = new System.Drawing.Size(168, 132);
+            this.lbPosTraits.TabIndex = 0;
+            this.lbPosTraits.DoubleClick += new System.EventHandler(this.lbChosenTraits_DoubleClick);
             // 
             // cbOccupations
             // 
@@ -61,14 +62,15 @@ namespace Project_Z_Creator
             this.cbOccupations.TabIndex = 1;
             this.cbOccupations.SelectedIndexChanged += new System.EventHandler(this.cbOccupations_SelectedIndexChanged);
             // 
-            // lbSkills
+            // lbNegTraits
             // 
-            this.lbSkills.FormattingEnabled = true;
-            this.lbSkills.ItemHeight = 16;
-            this.lbSkills.Location = new System.Drawing.Point(572, 215);
-            this.lbSkills.Name = "lbSkills";
-            this.lbSkills.Size = new System.Drawing.Size(168, 132);
-            this.lbSkills.TabIndex = 2;
+            this.lbNegTraits.FormattingEnabled = true;
+            this.lbNegTraits.ItemHeight = 16;
+            this.lbNegTraits.Location = new System.Drawing.Point(572, 246);
+            this.lbNegTraits.Name = "lbNegTraits";
+            this.lbNegTraits.Size = new System.Drawing.Size(168, 132);
+            this.lbNegTraits.TabIndex = 2;
+            this.lbNegTraits.DoubleClick += new System.EventHandler(this.lbNegTraits_DoubleClick);
             // 
             // cbPosTraits
             // 
@@ -91,7 +93,7 @@ namespace Project_Z_Creator
             // lbPoints
             // 
             this.lbPoints.AutoSize = true;
-            this.lbPoints.Location = new System.Drawing.Point(656, 356);
+            this.lbPoints.Location = new System.Drawing.Point(656, 387);
             this.lbPoints.Name = "lbPoints";
             this.lbPoints.Size = new System.Drawing.Size(44, 16);
             this.lbPoints.TabIndex = 5;
@@ -99,14 +101,14 @@ namespace Project_Z_Creator
             // 
             // tbCharacterName
             // 
-            this.tbCharacterName.Location = new System.Drawing.Point(572, 415);
+            this.tbCharacterName.Location = new System.Drawing.Point(524, 415);
             this.tbCharacterName.Name = "tbCharacterName";
             this.tbCharacterName.Size = new System.Drawing.Size(78, 22);
             this.tbCharacterName.TabIndex = 6;
             // 
             // btSave
             // 
-            this.btSave.Location = new System.Drawing.Point(665, 415);
+            this.btSave.Location = new System.Drawing.Point(610, 414);
             this.btSave.Name = "btSave";
             this.btSave.Size = new System.Drawing.Size(75, 23);
             this.btSave.TabIndex = 7;
@@ -116,7 +118,7 @@ namespace Project_Z_Creator
             // 
             // tbCost
             // 
-            this.tbCost.Location = new System.Drawing.Point(706, 353);
+            this.tbCost.Location = new System.Drawing.Point(706, 384);
             this.tbCost.Name = "tbCost";
             this.tbCost.Size = new System.Drawing.Size(34, 22);
             this.tbCost.TabIndex = 8;
@@ -124,26 +126,38 @@ namespace Project_Z_Creator
             // lblOccupation
             // 
             this.lblOccupation.AutoSize = true;
-            this.lblOccupation.Location = new System.Drawing.Point(662, 54);
+            this.lblOccupation.Location = new System.Drawing.Point(569, 78);
             this.lblOccupation.Name = "lblOccupation";
             this.lblOccupation.Size = new System.Drawing.Size(0, 16);
             this.lblOccupation.TabIndex = 9;
             // 
-            // lblName
+            // cbCharacters
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(569, 54);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(65, 16);
-            this.lblName.TabIndex = 10;
-            this.lblName.Text = "No Name";
+            this.cbCharacters.FormattingEnabled = true;
+            this.cbCharacters.Location = new System.Drawing.Point(619, 12);
+            this.cbCharacters.Name = "cbCharacters";
+            this.cbCharacters.Size = new System.Drawing.Size(121, 24);
+            this.cbCharacters.TabIndex = 11;
+            this.cbCharacters.DropDown += new System.EventHandler(this.cbCharacter_DropDown);
+            this.cbCharacters.SelectedIndexChanged += new System.EventHandler(this.cbCharacters_SelectedIndexChanged);
             // 
-            // Form1
+            // btDelete
+            // 
+            this.btDelete.Location = new System.Drawing.Point(691, 415);
+            this.btDelete.Name = "btDelete";
+            this.btDelete.Size = new System.Drawing.Size(75, 23);
+            this.btDelete.TabIndex = 12;
+            this.btDelete.Text = "Delete";
+            this.btDelete.UseVisualStyleBackColor = true;
+            this.btDelete.Click += new System.EventHandler(this.btDelete_Click);
+            // 
+            // Mainscreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.lblName);
+            this.Controls.Add(this.btDelete);
+            this.Controls.Add(this.cbCharacters);
             this.Controls.Add(this.lblOccupation);
             this.Controls.Add(this.tbCost);
             this.Controls.Add(this.btSave);
@@ -151,10 +165,10 @@ namespace Project_Z_Creator
             this.Controls.Add(this.lbPoints);
             this.Controls.Add(this.cbNegTraits);
             this.Controls.Add(this.cbPosTraits);
-            this.Controls.Add(this.lbSkills);
+            this.Controls.Add(this.lbNegTraits);
             this.Controls.Add(this.cbOccupations);
-            this.Controls.Add(this.lbChosenTraits);
-            this.Name = "Form1";
+            this.Controls.Add(this.lbPosTraits);
+            this.Name = "Mainscreen";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
@@ -164,9 +178,9 @@ namespace Project_Z_Creator
 
         #endregion
 
-        private System.Windows.Forms.ListBox lbChosenTraits;
+        private System.Windows.Forms.ListBox lbPosTraits;
         private System.Windows.Forms.ComboBox cbOccupations;
-        private System.Windows.Forms.ListBox lbSkills;
+        private System.Windows.Forms.ListBox lbNegTraits;
         private System.Windows.Forms.ComboBox cbPosTraits;
         private System.Windows.Forms.ComboBox cbNegTraits;
         private System.Windows.Forms.Label lbPoints;
@@ -174,7 +188,8 @@ namespace Project_Z_Creator
         private System.Windows.Forms.Button btSave;
         private System.Windows.Forms.TextBox tbCost;
         private System.Windows.Forms.Label lblOccupation;
-        private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.ComboBox cbCharacters;
+        private System.Windows.Forms.Button btDelete;
     }
 }
 

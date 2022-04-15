@@ -3,38 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Project_Z_Creator.DatabaseLayer;
-using Project_Z_Creator.LogicLayer;
+using Project_Z_Creator.InterfaceLayer;
 
 namespace Project_Z_Creator.LogicLayer
 {
     internal class TraitsContainer
     {
-        public List<Traits> PosTraits = new List<Traits>();
-        public List<Traits> NegTraits = new List<Traits>();
+        ITraitsContainer itraitsContainer;
 
-        public List<Traits> GetAllPosTraits()
+        public TraitsContainer(ITraitsContainer dal)
         {
-            TraitsDAL dal = new TraitsDAL();
-            List<PosTraitsDTO> list = dal.GetPosTraits();
-            foreach (PosTraitsDTO posTrait in list)
-            {
-                Traits newtrait = new Traits(posTrait);
-                PosTraits.Add(newtrait);
-            }
-            return PosTraits;
+            itraitsContainer = dal;
         }
-
-        public List<Traits> GetAllNegTraits()
+        public List<Trait> GetTraits()
         {
-            TraitsDAL dal = new TraitsDAL();
-            List <NegTraitsDTO> list = dal.GetNegTraits();
-            foreach (NegTraitsDTO negTrait in list)
+            List<Trait> Traits = new List<Trait>();
+            List<TraitDTO> list = itraitsContainer.GetTraits();
+            foreach (TraitDTO traits in list)
             {
-                Traits newtrait = new Traits(negTrait);
-                NegTraits.Add(newtrait);
+                Trait newtrait = new Trait(traits);
+                Traits.Add(newtrait);
             }
-            return NegTraits;
+            return Traits;
         }
     }
 }

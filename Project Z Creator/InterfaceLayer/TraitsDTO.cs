@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project_Z_Creator.DatabaseLayer
+namespace Project_Z_Creator.InterfaceLayer
 {
-    public class OccupationDTO
+
+    public class TraitDTO
     {
+        public int TraitID;
         public string Name;
         public int Cost;
-        public string Traits;
+        public bool PosNeg;
     }
 }

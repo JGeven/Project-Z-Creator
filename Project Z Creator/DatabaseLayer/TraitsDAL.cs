@@ -4,10 +4,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Project_Z_Creator.InterfaceLayer;
 
 namespace Project_Z_Creator.DatabaseLayer
 {
-    public class TraitsDAL : SQLConnect
+    public class TraitsDAL : SQLConnect, ITraitsContainer, ITraits
     {
 
         public TraitsDAL()
@@ -15,46 +16,26 @@ namespace Project_Z_Creator.DatabaseLayer
             Initialize();
         }
 
-        public List<PosTraitsDTO> GetPosTraits()
+        public List<TraitDTO> GetTraits()
         {
             OpenConnect();
-            cmd.CommandText = "Select * From Traits WHERE PosNeg=1";
+            cmd.CommandText = "Select * From Traits";
 
             using SqlDataReader rdr = cmd.ExecuteReader();
 
             
-            List<PosTraitsDTO> list = new List<PosTraitsDTO>();
+            List<TraitDTO> list = new List<TraitDTO>();
 
             while (rdr.Read())
             {
-                PosTraitsDTO postrait = new PosTraitsDTO
+                TraitDTO traits = new TraitDTO
                 {
-                    Name = rdr.GetString(0),
-                    Cost = rdr.GetInt32(1),
+                    TraitID = rdr.GetInt32(0),
+                    Name = rdr.GetString(1),
+                    Cost = rdr.GetInt32(2),
+                    PosNeg = rdr.GetBoolean(3),
                 };
-                list.Add(postrait);
-            }
-            CloseConnect();
-            return list;
-        }
-
-        public List<NegTraitsDTO> GetNegTraits()
-        {
-            OpenConnect();
-            cmd.CommandText = "Select * From Traits WHERE PosNeg=0";
-
-            using SqlDataReader rdr = cmd.ExecuteReader();
-
-            List<NegTraitsDTO> list = new List<NegTraitsDTO>();
-
-            while (rdr.Read())
-            {
-                NegTraitsDTO negtrait = new NegTraitsDTO
-                {
-                    Name = rdr.GetString(0),
-                    Cost = rdr.GetInt32(1),
-                };
-                list.Add(negtrait);
+                list.Add(traits);
             }
             CloseConnect();
             return list;

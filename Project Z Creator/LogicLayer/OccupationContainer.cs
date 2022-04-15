@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Project_Z_Creator.DatabaseLayer;
+using Project_Z_Creator.InterfaceLayer;
 
 namespace Project_Z_Creator.LogicLayer
 {
     internal class OccupationContainer
     {
-        public List<Occupations> Occupations = new List<Occupations>();
+        IOccupationContainer ioccupationContainer;
 
+        public OccupationContainer(IOccupationContainer dal)
+        {
+            ioccupationContainer = dal;
+        }
+         
         public List<Occupations> GetOccupations()
         {
-            OccupationDAL dal = new OccupationDAL();
-            List<OccupationDTO> list = dal.GetOccupations();
+            List<Occupations> Occupations = new List<Occupations>(); 
+            List<OccupationDTO> list = ioccupationContainer.GetOccupations();
             foreach (OccupationDTO occupations in list)
             {
                 Occupations newoccupation = new Occupations(occupations);
