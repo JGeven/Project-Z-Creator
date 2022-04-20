@@ -66,33 +66,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseLayer\CharacterDAL.cs" />
-    <Compile Include="InterfaceLayer\CharacterDTO.cs" />
-    <Compile Include="DatabaseLayer\OccupationDAL.cs" />
-    <Compile Include="InterfaceLayer\ICharacter.cs" />
-    <Compile Include="InterfaceLayer\IOccupation.cs" />
-    <Compile Include="InterfaceLayer\IOccupationContainer.cs" />
-    <Compile Include="InterfaceLayer\ITraits.cs" />
-    <Compile Include="InterfaceLayer\ITraitsContainer.cs" />
-    <Compile Include="InterfaceLayer\OccupationDTO.cs" />
-    <Compile Include="DatabaseLayer\TraitsDAL.cs" />
-    <Compile Include="InterfaceLayer\TraitsDTO.cs" />
-    <Compile Include="InterfaceLayer\ICharacterContainer.cs" />
-    <Compile Include="LogicLayer\CharacterContainer.cs" />
-    <Compile Include="LogicLayer\OccupationContainer.cs" />
-    <Compile Include="LogicLayer\TraitsContainer.cs" />
-    <Compile Include="UI\Form1.cs">
+    <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Form1.Designer.cs">
+    <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="LogicLayer\Occupations.cs" />
-    <Compile Include="LogicLayer\Character.cs" />
-    <Compile Include="LogicLayer\Program.cs" />
-    <Compile Include="DatabaseLayer\SQLConnect.cs" />
-    <Compile Include="LogicLayer\Trait.cs" />
-    <EmbeddedResource Include="UI\Form1.resx">
+    <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="..\.editorconfig">
