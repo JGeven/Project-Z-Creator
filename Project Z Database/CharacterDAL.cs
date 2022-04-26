@@ -24,7 +24,7 @@ namespace Project_Z_Database
                 cmd.CommandText = "INSERT INTO Characters (name, cost, occupationid) output INSERTED.CharacterID VALUES(@Name, @Cost, @Occupation)";
                 cmd.Parameters.AddWithValue("@Name", dto.Name);
                 cmd.Parameters.AddWithValue("@Cost", dto.Cost);
-                cmd.Parameters.AddWithValue("@Occupation", dto.Occupation);
+                cmd.Parameters.AddWithValue("@Occupation", dto.Occupations);
                 int CharacterID = (int) cmd.ExecuteScalar();
 
                 foreach (TraitDTO trait in dto.Traits)
@@ -74,11 +74,13 @@ namespace Project_Z_Database
                     CharacterID = rdr.GetInt32(0),
                     Name = rdr.GetString(1),
                     Cost = rdr.GetInt32(2),
-                    OccupationName = rdr.GetString(3)
                 };
-
-
-
+                
+                OccupationDTO occupation = new OccupationDTO
+                {
+                    Name = rdr.GetString(3),
+                };
+                characters.Occupations = occupation;
                 list.Add(characters);
             }
             CloseConnect();

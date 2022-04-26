@@ -16,6 +16,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project Z Interface", "Proj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project Z Presentation", "Project Z Presentation\Project Z Presentation.csproj", "{AFFF6D51-A9D9-42A3-AFD7-45E82260276D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{33ECABD3-9D7A-4CBB-AD4E-3E2D609A769B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{AFFF6D51-A9D9-42A3-AFD7-45E82260276D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFFF6D51-A9D9-42A3-AFD7-45E82260276D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFFF6D51-A9D9-42A3-AFD7-45E82260276D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33ECABD3-9D7A-4CBB-AD4E-3E2D609A769B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33ECABD3-9D7A-4CBB-AD4E-3E2D609A769B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33ECABD3-9D7A-4CBB-AD4E-3E2D609A769B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33ECABD3-9D7A-4CBB-AD4E-3E2D609A769B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

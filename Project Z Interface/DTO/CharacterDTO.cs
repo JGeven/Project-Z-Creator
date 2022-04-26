@@ -11,8 +11,7 @@ namespace Project_Z_Interface.DTO
         public int CharacterID;
         public string Name;
         public int Cost;
-        public int Occupation;
-        public string OccupationName;
+        public OccupationDTO Occupations;
         public List<TraitDTO> Traits;
     }
 }

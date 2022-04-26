@@ -13,11 +13,13 @@ namespace Project_Z_Logic
         public int CharacterID { get; set; }
         public string Name { get; set; }
         public int Cost { get; set; }
-        public int Occupation { get; set; }
-        public string OccupationName { get; set; }
+        public OccupationDTO Occupation { get; set; }
         public List<TraitDTO> Traits { get; set; }
 
         ICharacter ICharacter;
+
+        public int occupationID;
+        public string occupationName;
 
         public Character(ICharacter dal)
         {
@@ -29,8 +31,7 @@ namespace Project_Z_Logic
             this.CharacterID = Character.CharacterID;
             this.Name = Character.Name;
             this.Cost = Character.Cost;
-            this.Occupation = Character.Occupation;
-            this.OccupationName = Character.OccupationName;
+            this.Occupation = Character.Occupations;
             this.Traits = Character.Traits;
 
         }
@@ -45,23 +46,31 @@ namespace Project_Z_Logic
             this.ICharacter = dal;
         }
 
-        public Character(string name, int cost, int occcupation, List<TraitDTO> traits, ICharacter dal)
+        public Character(string name, int cost, Occupations occupation, List<TraitDTO> traits, ICharacter dal)
         {
-            
             this.Name = name;  
             this.Cost = cost;
-            this.Occupation = occcupation;
+            this.occupationName = occupation.Name;
+            this.occupationID = occupation.ID;
             this.Traits = traits;
             this.ICharacter = dal;
         }
 
-        private CharacterDTO ToDTO()
+        public OccupationDTO ConvertOccupation()
+        {
+            OccupationDTO dto = new OccupationDTO();
+            dto.ID = occupationID;
+            dto.Name = occupationName;
+            return dto;
+        }
+
+        public CharacterDTO ToDTO()
         {
             CharacterDTO DTO = new CharacterDTO();
             DTO.CharacterID = CharacterID;
             DTO.Name = Name;
             DTO.Cost = Cost;
-            DTO.Occupation = Occupation;
+            DTO.Occupations = ConvertOccupation();
             DTO.Traits = Traits;
             return DTO;
         }
@@ -83,6 +92,4 @@ namespace Project_Z_Logic
             return Name;
         }
     }
-
-
 }
