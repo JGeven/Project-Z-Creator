@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using Project_Z_Interface.DTO;
 
 namespace Project_Z_Logic
 {
-    internal class CharacterContainer
+    public class CharacterContainer
     {
         ICharacterContainer IcharacterContainer;
 
@@ -25,6 +26,7 @@ namespace Project_Z_Logic
 
         public List<Character> GetCharacters()
         {
+            CharacterContainer characterContainer = new CharacterContainer(IcharacterContainer);
             List<Character> characters = new List<Character>();
             List<CharacterDTO> list = IcharacterContainer.GetCharacters();
             foreach (CharacterDTO character in list)

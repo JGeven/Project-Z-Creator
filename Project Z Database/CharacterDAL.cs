@@ -9,7 +9,7 @@ using Project_Z_Interface.DTO;
 
 namespace Project_Z_Database
 {
-    public class CharacterDAL : SQLConnect, ICharacterContainer, ICharacter
+    public class CharacterDAL : SQLConnect, ICharacterContainer, ICharacter 
     {
         public CharacterDAL()
         {

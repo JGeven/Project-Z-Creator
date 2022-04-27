@@ -7,7 +7,7 @@ using Project_Z_Interface;
 
 namespace Project_Z_Logic
 {
-    internal class TraitsContainer
+    public class TraitsContainer
     {
         ITraitsContainer itraitsContainer;
 

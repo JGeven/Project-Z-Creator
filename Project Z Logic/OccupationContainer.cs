@@ -7,7 +7,7 @@ using Project_Z_Interface;
 
 namespace Project_Z_Logic
 {
-    internal class OccupationContainer
+    public class OccupationContainer
     {
         IOccupationContainer ioccupationContainer;
 

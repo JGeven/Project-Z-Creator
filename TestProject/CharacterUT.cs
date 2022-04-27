@@ -3,12 +3,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Project_Z_Interface;
 using Project_Z_Interface.DTO;
 using Project_Z_Logic;
+using TestProject.Fakes;
 
 namespace TestProject;
 
 [TestClass]
 public class UTCharacter
 {
+
+    private ICharacter iCharacter;
+    
     [TestMethod] public void Test_ConvertOccupation()
     {
         //Arrange
@@ -48,6 +52,43 @@ public class UTCharacter
         
         //Assert
         Assert.AreEqual(expected,dto.Name);
+    }
 
+    [TestMethod] public void Test_SaveChar()
+    {
+        //Arrange
+        CharacterDALStub stub = new CharacterDALStub();
+        
+        int characterID = 31;
+        string name = "Jesse Leppens";
+        int cost = 5;
+        
+        bool expected = true;
+
+        //Act
+        Character character = new Character(characterID, name, cost, stub);
+        bool actual = character.SaveChar();
+
+        //Assert
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod] public void Test_DeleteChar()
+    {
+        //Arrange
+        CharacterDALStub stub = new CharacterDALStub();
+        
+        int characterID = 31;
+        string name = "Jesse Leppens";
+        int cost = 5;
+        
+        bool expected = true;
+
+        //Act
+        Character character = new Character(characterID, name, cost, stub);
+        bool actual = character.DeleteChar();
+
+        //Assert
+        Assert.AreEqual(expected, actual);
     }
 }

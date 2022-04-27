@@ -10,7 +10,7 @@ namespace Project_Z_Logic
     public class Trait
     {
         public int TraitID { get; set; }
-        public string Name { get; }
+        public string Name { get; set; }
         public int Cost { get; set; }
         public bool PosNeg { get; }
 

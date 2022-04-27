@@ -46,6 +46,14 @@ namespace Project_Z_Logic
             this.ICharacter = dal;
         }
 
+        public Character(int characterid, string name, int cost, ICharacter dal)
+        {
+            this.CharacterID = characterid;
+            this.Name = name;
+            this.Cost = cost;
+            this.ICharacter = dal;
+        }
+
         public Character(string name, int cost, Occupations occupation, List<TraitDTO> traits, ICharacter dal)
         {
             this.Name = name;  
