@@ -9,7 +9,6 @@ namespace Project_Z_Interface
 {
     public interface ICharacter
     {
-        public bool SaveCharacter(CharacterDTO DTO);
-        public bool DeleteCharacter(CharacterDTO DTO);
+        
     }
 }

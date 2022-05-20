@@ -1,0 +1,20 @@
+﻿@model CharacterViewModel
+
+@{
+    ViewBag.Title = @Model.Name;
+    Layout = "_Layout";
+}
+
+
+<form asp-controller=Browse asp-action=Detail asp-route-id=@Model.CharacterID>
+    <h2><input type="text" name="Description" style="border: none; display: inline-block;" value="@Model.Name" /></h2>
+    <p><b>Cost:</b> <input type="text" name="Description" style="border: none; display: inline-block;" value="@Model.Cost" /></p>
+    <p><b>Occupation:</b> @Model.Occupation.Name</p>
+    <p><b>ID:</b> @Model.CharacterID</p>
+    <div>
+        <a asp-action=DeleteCharacter asp-controller=Browse  asp-route-characterID=@Model.CharacterID class="btn btn-danger btn-block-custom btn2">Delete character</a>
+    </div>
+</form>
+
+
+

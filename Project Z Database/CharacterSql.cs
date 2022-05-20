@@ -9,9 +9,9 @@ using Project_Z_Interface.DTO;
 
 namespace Project_Z_Database
 {
-    public class CharacterDAL : SQLConnect, ICharacterContainer, ICharacter 
+    public class CharacterSql : SQLConnect, ICharacterContainer, ICharacter 
     {
-        public CharacterDAL()
+        public CharacterSql()
         {
             Initialize();
         }
@@ -41,12 +41,12 @@ namespace Project_Z_Database
                 return false;
         }
 
-        public bool DeleteCharacter(CharacterDTO dto)
+        public bool DeleteCharacter(int characterID)
         {
             if (OpenConnect())
             {
                 cmd.CommandText = "DELETE FROM LinkCharTrait WHERE LinkCharTrait.CharacterID = @CharacterID DELETE FROM Characters Where Characters.CharacterID = @CharacterID";
-                cmd.Parameters.AddWithValue("@CharacterID", dto.CharacterID);
+                cmd.Parameters.AddWithValue("@CharacterID", characterID);
                 cmd.ExecuteNonQuery();
 
                 CloseConnect();
@@ -84,7 +84,7 @@ namespace Project_Z_Database
                 list.Add(characters);
             }
             CloseConnect();
-/*            OpenConnect();
+            /*OpenConnect();
             cmd = new SqlCommand("Select LinkCharTrait.CharacterID, LinkCharTrait.TraitID, Traits.Name FROM LinkCharTrait INNER JOIN Traits ON LinkCharTrait.TraitID=Traits.TraitsID WHERE LinkCharTrait.CharacterID=@CharacterID", conn);
             cmd.Parameters.AddWithValue("@CharacterID", CharacterID);
 
@@ -94,13 +94,44 @@ namespace Project_Z_Database
             {
                 CharacterDTO character = new CharacterDTO
                 {
-                     Trait = rdr2.GetString(2)
+                     Traits = rdr2.GetString(2)
                 };
                 list.Add(character);
-            }
+            }*/
 
-            CloseConnect();*/
+            CloseConnect();
             return list;
+        }
+
+        public CharacterDTO GetCharacterbyID(int characterID)
+        {
+            CharacterDTO character = new CharacterDTO();
+            OpenConnect();
+            cmd.CommandText =
+                "SELECT Characters.CharacterID, Characters.Name, Characters.Cost, Occupations.Name FROM Characters INNER JOIN Occupations ON Characters.OccupationID=Occupations.OccupationID WHERE Characters.CharacterID = @CharacterID";
+            cmd.Parameters.AddWithValue("@CharacterID", characterID);
+            
+            using (SqlDataReader rdr = cmd.ExecuteReader())
+            {
+                rdr.Read();
+                character = new CharacterDTO()
+                {
+                    CharacterID = rdr.GetInt32(0),
+                    Name = rdr.GetString(1),
+                    Cost = rdr.GetInt32(2),
+                };
+                
+                OccupationDTO occupation = new OccupationDTO
+                {
+                    Name = rdr.GetString(3),
+                };
+
+                character.Occupations = occupation;
+
+
+            }
+            CloseConnect();
+            return character;
         }
     }
 }

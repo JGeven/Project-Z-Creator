@@ -1,0 +1,33 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h1>Characters</h1>
+
+<button type="button">
+    <a asp-area="" asp-controller="Creator" asp-action="Create">Create character</a>
+</button>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Cost</th>
+    </tr>
+    @foreach (CharacterViewModel viewModel in Model.Characters)
+    {
+        <tr  onclick="location.href = '@Url.ActionLink("Create", "Creator", new {Id = viewModel.CharacterID})'">
+            <td>@viewModel.CharacterID</td>
+            <td>@viewModel.Name</td>
+            <td>@viewModel.Cost</td>
+        </tr>
+    }
+</table>
+
+
+<form method="delete" asp-action="Index" asp-controller="Creator">
+    <button type="submit" class="btn btn-primary">Delete</button>
+</form>

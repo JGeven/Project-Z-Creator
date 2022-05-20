@@ -35,6 +35,24 @@ namespace Project_Z_Logic
                 characters.Add(newCharacter);
             }
             return characters;
-        }           
+        }
+        
+        public Character GetCharacterbyID(int CharacterID)
+        {
+            CharacterDTO characterDTO = IcharacterContainer.GetCharacterbyID(CharacterID);
+            Character character = new Character(characterDTO);
+            return character;
+        }
+
+        public bool SaveCharacter(Character character)
+        {
+            CharacterDTO dto = character.ToDTO();
+            return IcharacterContainer.SaveCharacter(dto);
+        }
+        
+        public bool DeleteCharacter(int characterID)
+        {
+            return IcharacterContainer.DeleteCharacter(characterID);
+        }
     }
 }

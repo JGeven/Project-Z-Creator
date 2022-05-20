@@ -9,6 +9,9 @@ namespace Project_Z_Interface
 {
     public interface ICharacterContainer
     {
+        public bool SaveCharacter(CharacterDTO DTO);
+        public bool DeleteCharacter(int DTO);
         public List<CharacterDTO> GetCharacters();
+        public CharacterDTO GetCharacterbyID(int characterID);
     }
 }

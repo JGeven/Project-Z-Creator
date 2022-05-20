@@ -33,7 +33,12 @@ public class TraitContainerUT
         List<Trait> actual = container.GetTraits();
         
         //Assert
-        Assert.AreEqual(expected.Count, actual.Count);
+        for (int i = 0; i <actual.Count; i++)
+        {
+            Assert.AreEqual(expected[i].TraitID, actual[i].TraitID);
+            Assert.AreEqual(expected[i].Name, actual[i].Name);
+            Assert.AreEqual(expected[i].Cost, actual[i].Cost);
+        }
     }
 }
 

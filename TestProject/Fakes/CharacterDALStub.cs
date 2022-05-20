@@ -36,13 +36,13 @@ namespace TestProject.Fakes
             }
         }
 
-        public bool DeleteCharacter(CharacterDTO dto)
+        public bool DeleteCharacter(int dto)
         {
             list.Add(dto);
 
             try
             {
-                Console.WriteLine("Saved");
+                Console.WriteLine("Deleted");
                 list.Remove(dto);
                 return true;
             }

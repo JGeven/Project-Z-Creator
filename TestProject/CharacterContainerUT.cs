@@ -32,7 +32,12 @@ public class CharacterContainerUT
         List<Character> actual = container.GetCharacters();
 
         //Assert
-        Assert.AreEqual(expected.Count, actual.Count);
+        for (int i = 0; i <actual.Count; i++)
+        {
+            Assert.AreEqual(expected[i].CharacterID, actual[i].CharacterID);
+            Assert.AreEqual(expected[i].Name, actual[i].Name);
+            Assert.AreEqual(expected[i].Cost, actual[i].Cost);
+        }
     }
 
 }

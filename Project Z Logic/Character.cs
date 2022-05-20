@@ -17,7 +17,8 @@ namespace Project_Z_Logic
         public List<TraitDTO> Traits { get; set; }
 
         ICharacter ICharacter;
-
+        
+        //occupation ready for convert
         public int occupationID;
         public string occupationName;
 
@@ -40,19 +41,43 @@ namespace Project_Z_Logic
             this.Cost = 8;
         }
 
-        public Character(int characterid, ICharacter dal)
+        public Character(int characterid)
         {
             this.CharacterID = characterid;
-            this.ICharacter = dal;
         }
-
-        public Character(int characterid, string name, int cost, ICharacter dal)
+        public Character(string name, int cost, Occupations occupations, List<TraitDTO> traits)
         {
-            this.CharacterID = characterid;
             this.Name = name;
             this.Cost = cost;
-            this.ICharacter = dal;
+            this.occupationName = occupations.Name;
+            this.occupationID = occupations.ID;
+            this.Traits = traits;
         }
+
+        public Character(string name, int cost, OccupationDTO occupations)
+        {
+            this.Name = name;
+            this.Cost = cost;
+            this.occupationName = occupations.Name;
+            this.occupationID = occupations.ID;
+        }
+
+        public Character(int id, string name, int cost, OccupationDTO occupation)
+        {
+            this.CharacterID = id;
+            this.Name = name;
+            this.Cost = cost;
+            this.occupationName = occupation.Name;
+            this.occupationID = occupation.ID;
+        }
+
+       // public Character(int characterid, string name, int cost, ICharacter dal)
+       // {
+       ///     this.CharacterID = characterid;
+       //     this.Name = name;
+       //     this.Cost = cost;
+        //    this.ICharacter = dal;
+       // }
 
         public Character(string name, int cost, Occupations occupation, List<TraitDTO> traits, ICharacter dal)
         {
@@ -64,14 +89,14 @@ namespace Project_Z_Logic
             this.ICharacter = dal;
         }
 
-        public OccupationDTO ConvertOccupation()
+       public OccupationDTO ConvertOccupation()
         {
             OccupationDTO dto = new OccupationDTO();
             dto.ID = occupationID;
             dto.Name = occupationName;
             return dto;
         }
-
+        
         public CharacterDTO ToDTO()
         {
             CharacterDTO DTO = new CharacterDTO();
@@ -81,18 +106,6 @@ namespace Project_Z_Logic
             DTO.Occupations = ConvertOccupation();
             DTO.Traits = Traits;
             return DTO;
-        }
-
-        public bool SaveChar()
-        {
-            CharacterDTO DTO = ToDTO();
-            return ICharacter.SaveCharacter(DTO);
-        }
-
-        public bool DeleteChar()
-        {
-            CharacterDTO DTO = ToDTO();
-            return ICharacter.DeleteCharacter(DTO);
         }
 
         public override string ToString()

@@ -8,10 +8,10 @@ using Project_Z_Interface;
 
 namespace Project_Z_Database
 {
-    public class TraitsDAL : SQLConnect, ITraitsContainer, ITraits
+    public class TraitsSQL : SQLConnect, ITraitsContainer, ITraits
     {
 
-        public TraitsDAL()
+        public TraitsSQL()
         {
             Initialize();
         }

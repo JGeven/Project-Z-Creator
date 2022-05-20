@@ -15,7 +15,8 @@ namespace Project_Z_Presentation.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = new CharacterViewModel();
+            return View(model);
         }
 
         public IActionResult Privacy()

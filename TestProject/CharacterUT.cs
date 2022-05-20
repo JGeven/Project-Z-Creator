@@ -58,6 +58,7 @@ public class UTCharacter
     {
         //Arrange
         CharacterDALStub stub = new CharacterDALStub();
+        CharacterContainer container = new CharacterContainer();
         
         int characterID = 31;
         string name = "Jesse Leppens";
@@ -67,7 +68,7 @@ public class UTCharacter
 
         //Act
         Character character = new Character(characterID, name, cost, stub);
-        bool actual = character.SaveChar();
+        bool actual = container.SaveChar(character);
 
         //Assert
         Assert.AreEqual(expected, actual);

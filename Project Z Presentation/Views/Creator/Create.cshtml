@@ -1,0 +1,94 @@
+﻿@using Project_Z_Presentation.Models
+@model dynamic
+
+@{
+    ViewBag.Title = "Create Character";
+    Layout = "_Layout";
+}
+
+<h2>Create character</h2>
+<form method="post" asp-action="Create" asp-controller="Creator">
+    
+    @*<div class="form-group">
+        <label for="characterName">Name</label>
+        <input asp-for=CharacterVieModel.Name type="text" class="form-control" id="characterName" placeholder="Enter Name">
+    </div>*@
+    
+    <table border="1">
+        <tr>
+            <th>Occupation</th>
+            <th>Cost</th>
+        </tr>
+        @foreach (OccupationViewModel viewModel in Model.Occupations)
+        {
+            <tr>
+                <td>@viewModel.Name</td>
+                <td>@viewModel.Cost</td>
+            </tr>
+        }
+    </table>
+    
+    <table border="1">
+        <tr>
+            <th>Trait</th>
+            <th>Cost</th>
+        </tr>
+        @foreach (TraitViewModel viewModel in Model.Traits)
+        {
+            @if (viewModel.PosNeg == true)
+            {
+                <tr>
+                    <td>@viewModel.Name</td>
+                    <td>@viewModel.Cost</td>
+                </tr>
+            }
+
+        }
+    </table>
+    <table border="1">
+        <tr>
+            <th>Trait</th>
+            <th>Cost</th>
+        </tr>
+        @foreach (TraitViewModel viewModel in Model.Traits)
+        {
+            @if (viewModel.PosNeg == false)
+            {
+                <tr>
+                    <td>@viewModel.Name</td>
+                    <td>@viewModel.Cost</td>
+                </tr>
+            }
+        }
+    </table>
+    
+    @*<div class="row">
+        <div class="dropdown">
+            <@Html.DropDownList("ID", Model.Characters as SelectList, "Select Character")
+        </div>
+    </div>*@
+    
+    @*<table border="1"> <caption>Chosen Traits</caption>
+            <tr>
+                <th>Trait</th>
+                <th>Cost</th>
+            </tr>
+            @foreach (TraitViewModel viewModel in Model.Traits)
+            {
+                @if (viewModel.PosNeg == true)
+                {
+                    <tr>
+                        <td>@</td>
+                        <td>@viewModel.Cost</td>
+                    </tr>
+                }
+    
+            }
+        </table>*@
+    
+    
+    
+    
+
+    <button type="submit" class="btn btn-primary">Create Character</button>
+</form>

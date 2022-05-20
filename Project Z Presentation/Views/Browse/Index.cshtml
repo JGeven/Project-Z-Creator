@@ -1,0 +1,69 @@
+﻿@using Project_Z_Presentation.Models
+@model List<CharacterViewModel>
+
+@{
+    ViewBag.Title = "Create Character";
+    Layout = "_Layout";
+}
+
+<h2>Browse Characters</h2>
+@*<form method="post" asp-action="Detail" asp-controller="Browse">*@
+    
+    @*<div class="form-group">
+        <label for="characterName">Name</label>
+        <input asp-for=CharacterVieModel.Name type="text" class="form-control" id="characterName" placeholder="Enter Name">
+    </div>*@
+    
+@*@foreach (CharacterViewModel characterViewModel in Model)
+{
+    <table>
+        <tr>
+            <th>ID</th> 
+            <th>Name</th>
+            <th>Cost</th>
+        </tr>
+        <tr>
+            <td><a asp-controller=Browse asp-action=Detail asp-route-id=@characterViewModel.CharacterID></a>@characterViewModel.CharacterID</td>
+            <td><a asp-controller=Browse asp-action=Detail asp-route-id=@characterViewModel.CharacterID></a>@characterViewModel.Name</td>
+            <td><a asp-controller=Browse asp-action=Detail asp-route-id=@characterViewModel.CharacterID></a>@characterViewModel.Cost</td>    
+            <td>
+                <a asp-controller=Browse asp-action=Detail asp-route-id=@characterViewModel.CharacterID></a>@characterViewModel.CharacterID</td>
+            </td>
+        </tr>
+    </table>
+}
+</form>*@
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Cost
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (CharacterViewModel characterViewModel in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => characterViewModel.CharacterID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => characterViewModel.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => characterViewModel.Cost)
+            </td>
+            <td>
+                <a class="Details" asp-controller="Browse" asp-action="Detail" asp-route-characterID="@characterViewModel.CharacterID">Details</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

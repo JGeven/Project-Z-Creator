@@ -11,6 +11,5 @@ namespace Project_Z_Interface
         public int ID;
         public string Name;
         public int Cost;
-        public string Traits;
     }
 }

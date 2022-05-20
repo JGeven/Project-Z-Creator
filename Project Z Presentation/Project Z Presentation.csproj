@@ -7,4 +7,27 @@
     <RootNamespace>Project_Z_Presentation</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Creator\Creator.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Browse.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Creator\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Creator\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Project Z Database\Project Z Database.csproj" />
+    <ProjectReference Include="..\Project Z Logic\Project Z Logic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Profile" />
+  </ItemGroup>
+
 </Project>
