@@ -19,20 +19,32 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Creator" asp-action="Index">Creator</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Browse" asp-action="Index">Browse</a>
+                       
+                        @if(Context.Session.GetInt32("userID") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Creator" asp-action="Index">Creator</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Browse" asp-action="Index">Browse</a>
+                            </li>
+                        }
                     </ul>
                 </div>
+                @if (Context.Session.GetInt32("userID") != null)
+                {
+                    <div>
+                        <span class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Detail">Profile</a>
+                        </span>
+                        <span class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+                        </span>
+                    </div> 
+                }
             </div>
         </nav>
     </header>

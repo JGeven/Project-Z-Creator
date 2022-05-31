@@ -7,6 +7,8 @@ namespace Project_Z_Presentation.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        
+        
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -15,8 +17,7 @@ namespace Project_Z_Presentation.Controllers
 
         public IActionResult Index()
         {
-            var model = new CharacterViewModel();
-            return View(model);
+            return View();
         }
 
         public IActionResult Privacy()

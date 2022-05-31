@@ -12,6 +12,8 @@ namespace Project_Z_Interface.DTO
         public string Name;
         public int Cost;
         public OccupationDTO Occupations;
+        public int[] arraytraits;
         public List<TraitDTO> Traits;
+        public UserDTO User;
     }
 }

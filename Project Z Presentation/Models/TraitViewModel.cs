@@ -7,7 +7,7 @@ namespace Project_Z_Presentation.Models
         public int TraitID { get; set; }
         public string Name { get; set; }
         public int Cost { get; set; }
-        public bool PosNeg { get; }
+        public bool PosNeg { get; set; }
 
         public TraitViewModel()
         {

@@ -8,7 +8,7 @@ using Project_Z_Interface;
 
 namespace Project_Z_Database
 {
-    public class OccupationSQL : SQLConnect, IOccupationContainer, IOccupation
+    public class OccupationSQL : SQLConnect, IOccupationContainer
     {
 
         public OccupationSQL()

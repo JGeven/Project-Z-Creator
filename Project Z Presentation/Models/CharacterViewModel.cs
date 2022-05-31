@@ -11,35 +11,10 @@ namespace Project_Z_Presentation.Models
         public int CharacterID { get; set; }
         public string Name { get; set; }
         public int Cost { get; set; }
-        public OccupationDTO Occupation { get; set; }
-        public List<Trait> Traits { get; set; }
-
-        public CharacterViewModel()
-        {
-            
-        }
-
-        public CharacterViewModel(Character character)
-        {
-            this.CharacterID = character.CharacterID;
-            this.Name = character.Name;
-            this.Cost = character.Cost;
-            this.Occupation = character.Occupation;
-        }
+        public OccupationViewModel Occupation { get; set; }
+        public int[] arraytraits { get; set; }
+        public List<TraitViewModel> Traits { get; set; }
         
-        public CharacterViewModel(int characterId, string name, int cost, OccupationDTO occupation)
-        {
-            this.CharacterID = characterId;
-            this.Name = name;
-            this.Cost = cost;
-            this.Occupation = occupation;
-        }
-
-        public CharacterViewModel(string name, int cost, OccupationDTO occupation)
-        {
-            this.Name = name;
-            this.Cost = cost;
-            this.Occupation = occupation;
-        }
+        public int occupationID { get; set; }
     }
 }

@@ -54,5 +54,11 @@ namespace Project_Z_Logic
         {
             return IcharacterContainer.DeleteCharacter(characterID);
         }
+
+        public bool UpdateCharacter(Character character,int characterID)
+        {
+            CharacterDTO dto = character.ToDTO();
+            return IcharacterContainer.UpdateCharacter(dto, characterID);
+        }
     }
 }

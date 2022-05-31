@@ -18,10 +18,9 @@ public class TraitContainerUT
     [TestMethod] public void Test_GetTraits()
     {
         //Arrange
-        TraitDALStub stub = new TraitDALStub();
-        TraitDTO trait = new TraitDTO();
-        TraitsContainer container = new TraitsContainer(stub);
+        TraitsContainer container = new TraitsContainer(new TraitDALStub());
         List<TraitDTO> expected = new List<TraitDTO>();
+        TraitDTO trait = new TraitDTO();
         
         trait.TraitID = 1;
         trait.Name = "Lucky";

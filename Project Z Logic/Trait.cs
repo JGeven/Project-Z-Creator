@@ -21,11 +21,5 @@ namespace Project_Z_Logic
             this.Cost = Traits.Cost;
             this.PosNeg = Traits.PosNeg;
         }
-
-        public override string ToString()
-        {
-            return Name;
-        }
-
     }
 }

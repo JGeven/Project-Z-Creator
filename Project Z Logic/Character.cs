@@ -14,19 +14,27 @@ namespace Project_Z_Logic
         public string Name { get; set; }
         public int Cost { get; set; }
         public OccupationDTO Occupation { get; set; }
+        public int[] arraytraits { get; set; }
         public List<TraitDTO> Traits { get; set; }
+        public UserDTO User { get; set; }
 
-        ICharacter ICharacter;
+        ICharacterContainer ICharacter;
         
-        //occupation ready for convert
+        //Ready for convert
         public int occupationID;
         public string occupationName;
+        public int userID;
 
-        public Character(ICharacter dal)
+        public Character(ICharacterContainer dal)
         {
             ICharacter = dal;
         }
 
+        public Character()
+        {
+            
+        }
+        
         public Character(CharacterDTO Character)
         {
             this.CharacterID = Character.CharacterID;
@@ -34,66 +42,33 @@ namespace Project_Z_Logic
             this.Cost = Character.Cost;
             this.Occupation = Character.Occupations;
             this.Traits = Character.Traits;
+            this.arraytraits = Character.arraytraits;
+            this.User = Character.User;
 
         }
-        public Character()
-        {
-            this.Cost = 8;
-        }
 
-        public Character(int characterid)
-        {
-            this.CharacterID = characterid;
-        }
-        public Character(string name, int cost, Occupations occupations, List<TraitDTO> traits)
+        public Character(string name, int cost, int occupationID, int[] traits, int userID)
         {
             this.Name = name;
             this.Cost = cost;
-            this.occupationName = occupations.Name;
-            this.occupationID = occupations.ID;
-            this.Traits = traits;
+            this.occupationID = occupationID;
+            this.arraytraits = traits;
+            this.userID = userID;
+
         }
-
-        public Character(string name, int cost, OccupationDTO occupations)
-        {
-            this.Name = name;
-            this.Cost = cost;
-            this.occupationName = occupations.Name;
-            this.occupationID = occupations.ID;
-        }
-
-        public Character(int id, string name, int cost, OccupationDTO occupation)
-        {
-            this.CharacterID = id;
-            this.Name = name;
-            this.Cost = cost;
-            this.occupationName = occupation.Name;
-            this.occupationID = occupation.ID;
-        }
-
-       // public Character(int characterid, string name, int cost, ICharacter dal)
-       // {
-       ///     this.CharacterID = characterid;
-       //     this.Name = name;
-       //     this.Cost = cost;
-        //    this.ICharacter = dal;
-       // }
-
-        public Character(string name, int cost, Occupations occupation, List<TraitDTO> traits, ICharacter dal)
-        {
-            this.Name = name;  
-            this.Cost = cost;
-            this.occupationName = occupation.Name;
-            this.occupationID = occupation.ID;
-            this.Traits = traits;
-            this.ICharacter = dal;
-        }
-
-       public OccupationDTO ConvertOccupation()
+        
+        public OccupationDTO ConvertOccupation()
         {
             OccupationDTO dto = new OccupationDTO();
             dto.ID = occupationID;
             dto.Name = occupationName;
+            return dto;
+        }
+
+        public UserDTO ConvertUser()
+        {
+            UserDTO dto = new UserDTO();
+            dto.UserID = userID;
             return dto;
         }
         
@@ -105,12 +80,9 @@ namespace Project_Z_Logic
             DTO.Cost = Cost;
             DTO.Occupations = ConvertOccupation();
             DTO.Traits = Traits;
+            DTO.arraytraits = arraytraits;
+            DTO.User = ConvertUser();
             return DTO;
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 }

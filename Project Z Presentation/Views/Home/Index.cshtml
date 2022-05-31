@@ -1,6 +1,13 @@
 ﻿@{
     ViewBag.Title = "title";
     Layout = "_Layout";
+    
+    @if (ViewData["Message"] != null)
+    {
+        <div class="@ViewData["MessageClass"]" role="alert">
+            @ViewData["Message"]
+        </div>
+    }
 }
 
 <body>

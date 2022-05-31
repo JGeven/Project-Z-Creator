@@ -13,16 +13,16 @@ namespace Project_Z_Logic
         public string Name { get; set; }
         public int Cost { get; set; }
 
+        public Occupations()
+        {
+            
+        }
+        
         public Occupations(OccupationDTO Occupation)
         {
             this.ID = Occupation.ID;
             this.Name = Occupation.Name;
             this.Cost = Occupation.Cost;
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 }
