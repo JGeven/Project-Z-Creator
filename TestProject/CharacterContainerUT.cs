@@ -70,6 +70,8 @@ public class CharacterContainerUT
 
         //Assert
         Assert.AreEqual(expected, actual);
+        
+        //check of het dto object goed is gegaan + check of de method goed is gegaan
     }
 
     [TestMethod] public void Test_DeleteChar()
@@ -161,8 +163,41 @@ public class CharacterContainerUT
         Assert.AreEqual(expected.Cost, actual.Cost);
         Assert.AreEqual(expected.Occupation.ID, actual.Occupation.ID);
         CollectionAssert.AreEqual(expected.arraytraits, actual.arraytraits);
-        
     }
 
+    [TestMethod] public void Test_GetCharacterbyUserID()
+    {
+        //Arrange 
+        CharacterContainer container = new CharacterContainer(new CharacterDALStub());
+        List<Character> expected = new List<Character>();
+        List<Character> actual = new List<Character>();
+
+        Random random = new Random();
+
+        UserDTO dto = new UserDTO();
+        dto.UserID = random.Next(1, 10);
+
+        int userID = dto.UserID;
+
+        Character character = new Character();
+        character.User = dto;
+        
+        expected.Add(character);
+
+        //Act
+        actual = container.GetCharacterbyUserID(userID);
+
+        //Assert
+        for (int i = 0; i <actual.Count; i++)
+        {
+            Assert.AreEqual(expected[i].User.UserID, actual[i].User.UserID);
+        }
+        for (int i = 0; i < expected.Count; i++)
+        {
+            Assert.AreEqual(expected[i].User.UserID, actual[i].User.UserID);
+        }
+        
+        //nog 1 x zelfde methode maar dan omgedraaid.
+    }
 }
 

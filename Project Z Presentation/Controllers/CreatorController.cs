@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Project_Z_Presentation.Models;
 using Project_Z_Database;
+using Project_Z_Interface;
 using Project_Z_Logic;
 
 namespace Project_Z_Presentation.Controllers
@@ -32,7 +33,44 @@ namespace Project_Z_Presentation.Controllers
                  return RedirectToAction("Login", "User");
              }
              
-             return View();
+             int userID = (int)HttpContext.Session.GetInt32("userID");
+
+             List<Character> characters = _characterContainer.GetCharacterbyUserID(userID);
+             List<CharacterViewModel> characterViewModels = new List<CharacterViewModel>();
+
+             foreach (Character character in characters)
+             {
+                 List<TraitViewModel> traitViewModels = new List<TraitViewModel>();
+                 
+                 foreach (TraitDTO trait in character.Traits)
+                 {
+                     traitViewModels.Add(new TraitViewModel()
+                     {
+                         TraitID = trait.TraitID,
+                         Name = trait.Name,
+                         Cost = trait.Cost,
+                     });
+                 }
+            
+                 OccupationViewModel occupationViewModel = new OccupationViewModel()
+                 {
+                     OccupationID = character.Occupation.ID,
+                     Name = character.Occupation.Name,
+                     Cost = character.Occupation.Cost,
+                 };
+                
+                 CharacterViewModel characterViewModel = new CharacterViewModel()
+                 {
+                     CharacterID = character.CharacterID,
+                     Name = character.Name,
+                     Cost = character.Cost,
+                     Occupation = occupationViewModel,
+                     Traits = traitViewModels,
+                 };
+                 
+                 characterViewModels.Add(characterViewModel);
+             }
+             return View(characterViewModels);
          }
          
          [HttpGet] 
@@ -64,7 +102,7 @@ namespace Project_Z_Presentation.Controllers
              
              ViewBag.Occupation = GetOccupation();
              ViewBag.Trait = GetTrait();
-             return View();
+             return RedirectToAction("Index", "Creator");
          }
 
          

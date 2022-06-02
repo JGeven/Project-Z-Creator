@@ -64,7 +64,7 @@ namespace TestProject.Fakes
             
             if (dto.CharacterID == characterID)
             {
-                list.RemoveAll(dto => dto.CharacterID == characterID);
+                list.RemoveAll(dto => dto.CharacterID != characterID);
                 Console.WriteLine("Deleted");
                 return true;
             }
@@ -149,6 +149,26 @@ namespace TestProject.Fakes
             {
                 return null;
             }
+        }
+
+        public List<CharacterDTO> GetCharacterbyUserID(int userID)
+        {
+            List<CharacterDTO> characters = new List<CharacterDTO>();
+            Random random = new Random();
+            
+            for (int i = 0; i < 30; i++)
+            {
+                UserDTO dto = new UserDTO();
+                dto.UserID = random.Next(1,10);
+                CharacterDTO character = new CharacterDTO();
+                character.User = dto;
+                characters.Add(character);
+            }
+
+            characters.RemoveAll(x => x.User.UserID != userID);
+
+            return characters;
+
         }
 
 

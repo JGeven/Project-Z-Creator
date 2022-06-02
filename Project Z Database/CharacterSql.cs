@@ -24,10 +24,11 @@ namespace Project_Z_Database
             if (OpenConnect())
             {
 
-                cmd.CommandText = "INSERT INTO Characters (name, cost, occupationid) output INSERTED.CharacterID VALUES(@Name, @Cost, @Occupation)";
+                cmd.CommandText = "INSERT INTO Characters (name, cost, occupationid, userid) output INSERTED.CharacterID VALUES(@Name, @Cost, @Occupation, @User)";
                 cmd.Parameters.AddWithValue("@Name", dto.Name);
                 cmd.Parameters.AddWithValue("@Cost", dto.Cost);
                 cmd.Parameters.AddWithValue("@Occupation", dto.Occupations.ID);
+                cmd.Parameters.AddWithValue("@User", dto.User.UserID);
                 int CharacterID = (int) cmd.ExecuteScalar();
 
                 foreach (int trait in dto.arraytraits)
@@ -151,11 +152,12 @@ namespace Project_Z_Database
             return character;
         }
 
-        public List<CharacterDTO> GetCharacterbyUserID()
+        public List<CharacterDTO> GetCharacterbyUserID(int userID)
         {
             OpenConnect();
             cmd.CommandText = 
-                "SELECT Characters.CharacterID, Characters.Name, Characters.Cost, Occupations.Name FROM Characters INNER JOIN Occupations ON Characters.OccupationID=Occupations.OccupationID WHERE";
+                "SELECT Characters.CharacterID, Characters.Name, Characters.Cost, Occupations.Name FROM Characters INNER JOIN Occupations ON Characters.OccupationID=Occupations.OccupationID WHERE Characters.UserID = @User";
+            cmd.Parameters.AddWithValue("@User", userID);
             using SqlDataReader rdr = cmd.ExecuteReader();
 
             List<CharacterDTO> list = new List<CharacterDTO>();

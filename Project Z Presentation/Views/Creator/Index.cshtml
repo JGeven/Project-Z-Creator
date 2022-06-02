@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model List<CharacterViewModel>
 
 @{
     ViewBag.Title = "title";
@@ -17,3 +17,38 @@
 <button type="button">
     <a asp-area="" asp-controller="Creator" asp-action="Create">Create character</a>
 </button>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Cost
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (CharacterViewModel characterViewModel in Model) 
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => characterViewModel.CharacterID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => characterViewModel.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => characterViewModel.Cost)
+            </td>
+            <td>
+                <a class="Details" asp-controller="Browse" asp-action="Detail" asp-route-characterID="@characterViewModel.CharacterID">Details</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

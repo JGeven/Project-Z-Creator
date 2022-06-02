@@ -15,10 +15,6 @@ namespace Project_Z_Logic
     {
         ICharacterContainer IcharacterContainer;
 
-        public CharacterContainer()
-        {
-        }
-
         public CharacterContainer(ICharacterContainer dal)
         {
             IcharacterContainer = dal;
@@ -26,7 +22,6 @@ namespace Project_Z_Logic
 
         public List<Character> GetCharacters()
         {
-            CharacterContainer characterContainer = new CharacterContainer(IcharacterContainer);
             List<Character> characters = new List<Character>();
             List<CharacterDTO> list = IcharacterContainer.GetCharacters();
             foreach (CharacterDTO character in list)
@@ -42,6 +37,18 @@ namespace Project_Z_Logic
             CharacterDTO characterDTO = IcharacterContainer.GetCharacterbyID(CharacterID);
             Character character = new Character(characterDTO);
             return character;
+        }
+
+        public List<Character> GetCharacterbyUserID(int userID)
+        {
+            List<CharacterDTO> characterDTOs = IcharacterContainer.GetCharacterbyUserID(userID);
+            List<Character> characters = new List<Character>();
+            foreach (CharacterDTO character in characterDTOs)
+            {
+                Character newCharacter = new Character(character);
+                characters.Add(newCharacter);
+            }
+            return characters;
         }
 
         public bool SaveCharacter(Character character)
