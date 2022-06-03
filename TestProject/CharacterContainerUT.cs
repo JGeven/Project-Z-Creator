@@ -41,7 +41,7 @@ public class CharacterContainerUT
         }
     }
     
-    [TestMethod] public void Test_SaveChar()
+    [TestMethod] public void Test_SaveChar_True()
     {
         //Arrange
         CharacterContainer container = new CharacterContainer(new CharacterDALStub());
@@ -70,11 +70,40 @@ public class CharacterContainerUT
 
         //Assert
         Assert.AreEqual(expected, actual);
+    }
+    
+    [TestMethod] public void Test_SaveChar_False()
+    {
+        //Arrange
+        CharacterContainer container = new CharacterContainer(new CharacterDALStub());
         
-        //check of het dto object goed is gegaan + check of de method goed is gegaan
+        int characterID = 31;
+        string name = "Test";
+        int cost = 5;
+        int occupationID = 2;
+        int userID = 4;
+        
+        List<int> traits = new List<int>();
+        int chef = 1;
+        int smoker = 6;
+        
+        traits.Add(chef);
+        traits.Add(smoker);
+
+        int[] arraytraits;
+        arraytraits = traits.ToArray();
+        
+        bool expected = false;
+
+        //Act
+        Character character = new Character(name, cost, occupationID, arraytraits, userID);
+        bool actual = container.SaveCharacter(character);
+
+        //Assert
+        Assert.AreEqual(expected, actual);
     }
 
-    [TestMethod] public void Test_DeleteChar()
+    [TestMethod] public void Test_DeleteChar_True()
     {
         //Arrange
         CharacterContainer container = new CharacterContainer(new CharacterDALStub());
@@ -88,8 +117,24 @@ public class CharacterContainerUT
         //Assert
         Assert.AreEqual(expected, actual);
     }
+    
+    [TestMethod] public void Test_DeleteChar_False()
+    {
+        //Arrange
+        CharacterContainer container = new CharacterContainer(new CharacterDALStub());
 
-    [TestMethod] public void Test_UpdateCharacter()
+        int characterID = 64;
+        
+        bool expected = false;
+
+        //Act
+        bool actual = container.DeleteCharacter(characterID);
+
+        //Assert
+        Assert.AreEqual(expected, actual);
+    }
+
+    [TestMethod] public void Test_UpdateCharacter_True()
     {
         //Arrange
         CharacterContainer container = new CharacterContainer(new CharacterDALStub());
@@ -124,14 +169,50 @@ public class CharacterContainerUT
         Assert.AreEqual(expected, actual);
     }
     
-    [TestMethod] public void Test_GetCharacterbyID()
+    [TestMethod] public void Test_UpdateCharacter_False()
+    {
+        //Arrange
+        CharacterContainer container = new CharacterContainer(new CharacterDALStub());
+
+        List<int> traits = new List<int>();
+        int unlucky = 3;
+        int fit = 8;
+        
+        traits.Add(fit);
+        traits.Add(unlucky);
+
+        int[] arraytraits;
+        arraytraits = traits.ToArray();
+
+        OccupationDTO occupations = new OccupationDTO();
+        occupations.ID = 2;
+        occupations.Name = "Chef";
+            
+        Character character = new Character();
+        character.Name = "William James Charles";
+        character.Cost = 14;
+        character.Occupation = occupations;
+        character.arraytraits = arraytraits;
+
+        int characterID = 65;
+        
+        bool expected = false;
+        
+        //Act
+        bool actual = container.UpdateCharacter(character, characterID);
+
+        //Assert
+        Assert.AreEqual(expected, actual);
+    }
+    
+    [TestMethod] public void Test_GetCharacterbyID_True()
     {
         //Arrange
         CharacterContainer container = new CharacterContainer(new CharacterDALStub());
         Character expected = new Character();
         Character actual = new Character();
+        
         OccupationDTO occupations = new OccupationDTO();
-
         occupations.ID = 2;
         occupations.Name = "Chef";
         
@@ -164,8 +245,44 @@ public class CharacterContainerUT
         Assert.AreEqual(expected.Occupation.ID, actual.Occupation.ID);
         CollectionAssert.AreEqual(expected.arraytraits, actual.arraytraits);
     }
+    
+    [TestMethod] public void Test_GetCharacterbyID_False()
+    {
+        //Arrange
+        CharacterContainer container = new CharacterContainer(new CharacterDALStub());
+        Character expected = new Character();
+        OccupationDTO occupations = new OccupationDTO();
 
-    [TestMethod] public void Test_GetCharacterbyUserID()
+        occupations.ID = 2;
+        occupations.Name = "Chef";
+        
+        List<int> traits = new List<int>();
+        int chef = 1;
+        int smoker = 6;
+        
+        traits.Add(chef);
+        traits.Add(smoker);
+
+        int[] arraytraits;
+        arraytraits = traits.ToArray();
+        
+        expected.CharacterID = 31;
+        expected.Name = "Jesse Leppens";
+        expected.Cost = 5;
+        expected.Occupation = occupations;
+        expected.arraytraits = arraytraits;
+
+        int characterID = 65;
+        
+        //Act
+        //Act is below with exceptioncheck
+        
+        //Assert
+        Assert.ThrowsException<NullReferenceException>(() => container.GetCharacterbyID(characterID));
+
+    }
+
+    [TestMethod] public void Test_GetCharacterbyUserID_True()
     {
         //Arrange 
         CharacterContainer container = new CharacterContainer(new CharacterDALStub());
@@ -190,14 +307,35 @@ public class CharacterContainerUT
         //Assert
         for (int i = 0; i <actual.Count; i++)
         {
-            Assert.AreEqual(expected[i].User.UserID, actual[i].User.UserID);
+            Assert.AreEqual(userID, actual[i].User.UserID);
         }
-        for (int i = 0; i < expected.Count; i++)
-        {
-            Assert.AreEqual(expected[i].User.UserID, actual[i].User.UserID);
-        }
+    }
+    
+    [TestMethod] public void Test_GetCharacterbyUserID_False()
+    {
+        //Arrange 
+        CharacterContainer container = new CharacterContainer(new CharacterDALStub());
+        List<Character> expected = new List<Character>();
+        List<Character> actual = new List<Character>();
+
+        UserDTO dto = new UserDTO();
+        dto.UserID = 9658;
+
+        int userID = dto.UserID;
+
+        Character character = new Character();
+        character.User = dto;
         
-        //nog 1 x zelfde methode maar dan omgedraaid.
+        expected.Add(character);
+
+        //Act
+        actual = container.GetCharacterbyUserID(userID);
+
+        //Assert
+        for (int i = 0; i <actual.Count; i++)
+        {
+            Assert.AreNotEqual(userID, actual[i].User.UserID);
+        }
     }
 }
 

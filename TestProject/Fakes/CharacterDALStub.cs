@@ -24,18 +24,14 @@ namespace TestProject.Fakes
         public bool SaveCharacter(CharacterDTO dto)
         {
             List<CharacterDTO> list = new List<CharacterDTO>();
-            
-            try
-            {   
+
+            if (dto.Name == "Jesse Leppens")
+            {
                 Console.WriteLine("Saved");
                 list.Add(dto);
                 return true;
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            return false;
         }
 
         public bool DeleteCharacter(int characterID)
@@ -61,17 +57,14 @@ namespace TestProject.Fakes
             
             List<CharacterDTO> list = new List<CharacterDTO>();
             list.Add(dto);
-            
+
             if (dto.CharacterID == characterID)
             {
                 list.RemoveAll(dto => dto.CharacterID != characterID);
                 Console.WriteLine("Deleted");
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public bool UpdateCharacter(CharacterDTO DTO, int characterID)

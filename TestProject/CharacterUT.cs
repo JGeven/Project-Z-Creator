@@ -32,24 +32,37 @@ public class UTCharacter
         Assert.AreEqual(expectedID, dto.ID);
     }
     
+    [TestMethod] public void Test_ConvertUser()
+    {
+        //Arrange
+        Character character = new Character();
+        UserDTO dto = new UserDTO();
+
+        character.userID = 1;
+        
+        int expectedID = 1;
+
+        //Act
+        dto = character.ConvertUser();
+
+        //Assert
+        Assert.AreEqual(expectedID, dto.UserID);
+    }
+    
     [TestMethod] public void Test_ToDO()
     {
         //Arrange
         Character character = new Character();
         CharacterDTO dto = new CharacterDTO();
         
-        character.CharacterID = 31;
-        character.Name = "Jesse Leppens";
+        character.Name = "test persoon";
         character.Cost = 5;
-        character.Occupation = null;
-        character.Traits = null;
 
-        string expected = "Jesse Leppens";
         //Act
-        
         dto = character.ToDTO();
         
         //Assert
-        Assert.AreEqual(expected,dto.Name);
+        Assert.AreEqual(character.Name, dto.Name);
+        Assert.AreEqual(character.Cost, dto.Cost);
     }
 }
