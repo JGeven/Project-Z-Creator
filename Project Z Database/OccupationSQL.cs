@@ -29,7 +29,7 @@ namespace Project_Z_Database
             {
                 OccupationDTO occupations = new OccupationDTO()
                 {
-                    ID = rdr.GetInt32(0),
+                    OccupationID = rdr.GetInt32(0),
                     Name = rdr.GetString(1),
                     Cost = rdr.GetInt32(2),
                 };

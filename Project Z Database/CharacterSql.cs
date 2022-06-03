@@ -27,7 +27,7 @@ namespace Project_Z_Database
                 cmd.CommandText = "INSERT INTO Characters (name, cost, occupationid, userid) output INSERTED.CharacterID VALUES(@Name, @Cost, @Occupation, @User)";
                 cmd.Parameters.AddWithValue("@Name", dto.Name);
                 cmd.Parameters.AddWithValue("@Cost", dto.Cost);
-                cmd.Parameters.AddWithValue("@Occupation", dto.Occupations.ID);
+                cmd.Parameters.AddWithValue("@Occupation", dto.Occupations.OccupationID);
                 cmd.Parameters.AddWithValue("@User", dto.User.UserID);
                 int CharacterID = (int) cmd.ExecuteScalar();
 
@@ -47,15 +47,17 @@ namespace Project_Z_Database
         {
             if (OpenConnect())
             {
-                cmd.CommandText = "DELETE FROM LinkCharTrait WHERE LinkCharTrait.CharacterID = @CharacterID DELETE FROM Characters Where Characters.CharacterID = @CharacterID";
+                cmd.CommandText = "DELETE FROM Characters Where CharacterID = @CharacterID";
                 cmd.Parameters.AddWithValue("@CharacterID", characterID);
-                cmd.ExecuteNonQuery();
 
+                _traitsSQL.DeleteTrait(characterID);
+                
+                cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
                 CloseConnect();
                 return true;
             }
-            else
-                return false;
+            return false;
  
         }
 
@@ -67,7 +69,7 @@ namespace Project_Z_Database
 
                 cmd.Parameters.AddWithValue("@Name", dto.Name);
                 cmd.Parameters.AddWithValue("@Cost", dto.Cost);
-                cmd.Parameters.AddWithValue("@Occupation", dto.Occupations.ID);
+                cmd.Parameters.AddWithValue("@Occupation", dto.Occupations.OccupationID);
                 cmd.Parameters.AddWithValue("@CharacterID", characterID);
 
                 _traitsSQL.DeleteTrait(characterID);

@@ -23,7 +23,7 @@ public class OccupationContainerUT
         OccupationContainer container = new OccupationContainer(stub);
         List<OccupationDTO> expected = new List<OccupationDTO>();
         
-        occupation.ID = 1;
+        occupation.OccupationID = 1;
         occupation.Name = "Chef";
         occupation.Cost = 12;
         
@@ -37,7 +37,7 @@ public class OccupationContainerUT
 
         for (int i = 0; i <actual.Count; i++)
         {
-            Assert.AreEqual(expected[i].ID, actual[i].ID);
+            Assert.AreEqual(expected[i].OccupationID, actual[i].ID);
             Assert.AreEqual(expected[i].Name, actual[i].Name);
             Assert.AreEqual(expected[i].Cost, actual[i].Cost);
         }

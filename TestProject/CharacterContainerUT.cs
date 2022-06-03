@@ -151,7 +151,7 @@ public class CharacterContainerUT
         arraytraits = traits.ToArray();
 
         OccupationDTO occupations = new OccupationDTO();
-        occupations.ID = 2;
+        occupations.OccupationID = 2;
         occupations.Name = "Chef";
             
         Character character = new Character();
@@ -185,7 +185,7 @@ public class CharacterContainerUT
         arraytraits = traits.ToArray();
 
         OccupationDTO occupations = new OccupationDTO();
-        occupations.ID = 2;
+        occupations.OccupationID = 2;
         occupations.Name = "Chef";
             
         Character character = new Character();
@@ -213,7 +213,7 @@ public class CharacterContainerUT
         Character actual = new Character();
         
         OccupationDTO occupations = new OccupationDTO();
-        occupations.ID = 2;
+        occupations.OccupationID = 2;
         occupations.Name = "Chef";
         
         List<int> traits = new List<int>();
@@ -242,7 +242,7 @@ public class CharacterContainerUT
         Assert.AreEqual(expected.CharacterID, actual.CharacterID);
         Assert.AreEqual(expected.Name, actual.Name);
         Assert.AreEqual(expected.Cost, actual.Cost);
-        Assert.AreEqual(expected.Occupation.ID, actual.Occupation.ID);
+        Assert.AreEqual(expected.Occupation.OccupationID, actual.Occupation.OccupationID);
         CollectionAssert.AreEqual(expected.arraytraits, actual.arraytraits);
     }
     
@@ -253,7 +253,7 @@ public class CharacterContainerUT
         Character expected = new Character();
         OccupationDTO occupations = new OccupationDTO();
 
-        occupations.ID = 2;
+        occupations.OccupationID = 2;
         occupations.Name = "Chef";
         
         List<int> traits = new List<int>();

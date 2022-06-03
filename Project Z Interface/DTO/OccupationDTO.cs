@@ -8,7 +8,7 @@ namespace Project_Z_Interface
 {
     public class OccupationDTO
     {
-        public int ID;
+        public int OccupationID;
         public string Name;
         public int Cost;
     }

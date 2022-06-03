@@ -20,7 +20,7 @@ namespace Project_Z_Logic
         
         public Occupations(OccupationDTO Occupation)
         {
-            this.ID = Occupation.ID;
+            this.ID = Occupation.OccupationID;
             this.Name = Occupation.Name;
             this.Cost = Occupation.Cost;
         }

@@ -45,7 +45,7 @@ namespace TestProject.Fakes
             arraytraits = traits.ToArray();
 
             OccupationDTO occupation = new OccupationDTO();
-            occupation.ID = 1;
+            occupation.OccupationID = 1;
             occupation.Name = "Chef";
             
             CharacterDTO dto = new CharacterDTO();
@@ -70,7 +70,7 @@ namespace TestProject.Fakes
         public bool UpdateCharacter(CharacterDTO DTO, int characterID)
         {
             OccupationDTO occupation = new OccupationDTO();
-            occupation.ID = 2;
+            occupation.OccupationID = 2;
             occupation.Name = "Chef";
             
             List<int> traits = new List<int>();
@@ -112,7 +112,7 @@ namespace TestProject.Fakes
             user.UserID = 4;
             
             OccupationDTO occupation = new OccupationDTO();
-            occupation.ID = 2;
+            occupation.OccupationID = 2;
             occupation.Name = "Chef";
             
             List<int> traits = new List<int>();

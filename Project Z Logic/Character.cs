@@ -21,9 +21,9 @@ namespace Project_Z_Logic
         ICharacterContainer ICharacter;
         
         //Ready for convert
-        public int occupationID;
-        public string occupationName;
-        public int userID;
+        private int occupationID;
+        private string occupationName;
+        private int userID;
 
         public Character(ICharacterContainer dal)
         {
@@ -60,7 +60,7 @@ namespace Project_Z_Logic
         public OccupationDTO ConvertOccupation()
         {
             OccupationDTO dto = new OccupationDTO();
-            dto.ID = occupationID;
+            dto.OccupationID = occupationID;
             dto.Name = occupationName;
             return dto;
         }

@@ -54,7 +54,7 @@ namespace Project_Z_Presentation.Controllers
             
                  OccupationViewModel occupationViewModel = new OccupationViewModel()
                  {
-                     OccupationID = character.Occupation.ID,
+                     OccupationID = character.Occupation.OccupationID,
                      Name = character.Occupation.Name,
                      Cost = character.Occupation.Cost,
                  };

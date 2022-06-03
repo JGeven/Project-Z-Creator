@@ -10,7 +10,7 @@ namespace TestProject.Fakes
         public List<OccupationDTO> GetOccupations()
         {
             OccupationDTO dto = new OccupationDTO();
-            dto.ID = 1;
+            dto.OccupationID = 1;
             dto.Name = "Chef";
             dto.Cost = 12;
 

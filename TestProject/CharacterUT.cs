@@ -29,7 +29,7 @@ public class UTCharacter
 
         //Assert
         Assert.AreEqual(expectedName, dto.Name);
-        Assert.AreEqual(expectedID, dto.ID);
+        Assert.AreEqual(expectedID, dto.OccupationID);
     }
     
     [TestMethod] public void Test_ConvertUser()
