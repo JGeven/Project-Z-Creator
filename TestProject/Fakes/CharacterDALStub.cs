@@ -1,166 +1,119 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
+using Project_Z_Interface;
 using Project_Z_Interface.DTO;
-using Project_Z_Interface;  
 
 namespace TestProject.Fakes
 {
-    public class CharacterDALStub : ICharacterContainer
+    public class CharacterDalStub : ICharacterContainer
     {
+        public List<CharacterDto> StubDtOs = new List<CharacterDto>();
+        public CharacterDto StubDto = new CharacterDto();
 
-        public List<CharacterDTO> GetCharacters()
+        public List<CharacterDto> GetCharacters()
         {
-            List<CharacterDTO> list = new List<CharacterDTO>();
-            CharacterDTO dto = new CharacterDTO();
-            dto.CharacterID = 420;
-            dto.Name = "test";
-            dto.Cost = 69;
+            StubDto.CharacterID = 420;
+            StubDto.Name = "test";
+            StubDto.Cost = 69;
 
-            list.Add(dto);
-            return list;
+            StubDtOs.Add(StubDto);
+            return StubDtOs;
         }
 
-        public bool SaveCharacter(CharacterDTO dto)
+        public bool SaveCharacter(CharacterDto dto)
         {
-            List<CharacterDTO> list = new List<CharacterDTO>();
-
-            if (dto.Name == "Jesse Leppens")
-            {
-                Console.WriteLine("Saved");
-                list.Add(dto);
-                return true;
-            }
-            return false;
+            StubDto = dto;
+            return true;
         }
 
         public bool DeleteCharacter(int characterID)
         {
-            List<int> traits = new List<int>();
-            int lucky = 1;
-            int smoker = 6;
-            traits.Add(lucky);
-            traits.Add(smoker);
-            int[] arraytraits;
-            arraytraits = traits.ToArray();
-
-            OccupationDTO occupation = new OccupationDTO();
-            occupation.OccupationID = 1;
-            occupation.Name = "Chef";
-            
-            CharacterDTO dto = new CharacterDTO();
-            dto.CharacterID = 31;
-            dto.Name = "Jesse Leppens";
-            dto.Cost = 5;
-            dto.Occupations = occupation;
-            dto.arraytraits = arraytraits;
-            
-            List<CharacterDTO> list = new List<CharacterDTO>();
-            list.Add(dto);
-
-            if (dto.CharacterID == characterID)
-            {
-                list.RemoveAll(dto => dto.CharacterID != characterID);
-                Console.WriteLine("Deleted");
-                return true;
-            }
-            return false;
+            StubDto.CharacterID = characterID;
+            return true;
         }
 
-        public bool UpdateCharacter(CharacterDTO DTO, int characterID)
+        public bool UpdateCharacter(CharacterDto dto)
         {
-            OccupationDTO occupation = new OccupationDTO();
-            occupation.OccupationID = 2;
-            occupation.Name = "Chef";
-            
-            List<int> traits = new List<int>();
-            int chef = 1;
-            int smoker = 6;
-        
-            traits.Add(chef);
-            traits.Add(smoker);
-
-            int[] arraytraits;
-            arraytraits = traits.ToArray();
-            
-            CharacterDTO dto = new CharacterDTO();
-            dto.CharacterID = 31;
-            dto.Name = "Jesse Leppens";
-            dto.Cost = 5;
-            dto.Occupations = occupation;
-            dto.arraytraits = arraytraits;
-                
-            if (dto.CharacterID == characterID)
-            {
-                dto.Name = DTO.Name;
-                dto.Cost = DTO.Cost;
-                dto.Occupations = DTO.Occupations;
-                dto.arraytraits = DTO.arraytraits;
-                Console.WriteLine(dto.Name);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            
+            StubDto = dto;
+            return true;
         }
 
-        public CharacterDTO GetCharacterbyID(int characterID)
+        public CharacterDto GetCharacterbyID(int characterID)
         {
-            UserDTO user = new UserDTO();
-            user.UserID = 4;
-            
-            OccupationDTO occupation = new OccupationDTO();
-            occupation.OccupationID = 2;
-            occupation.Name = "Chef";
-            
-            List<int> traits = new List<int>();
-            int chef = 1;
-            int smoker = 6;
-        
-            traits.Add(chef);
-            traits.Add(smoker);
-
-            int[] arraytraits;
-            arraytraits = traits.ToArray();
-            
-            CharacterDTO dto = new CharacterDTO();
-            dto.CharacterID = 31;
-            dto.Name = "Jesse Leppens";
-            dto.Cost = 5;
-            dto.User = user;
-            dto.Occupations = occupation;
-            dto.arraytraits = arraytraits;
-
-            if (dto.CharacterID == characterID)
+            CharacterDto dto1 = new CharacterDto
             {
-                Console.WriteLine("Got Character");
-                return dto;
-            }
-            else
+                CharacterID = 1,
+                Name = "test123",
+                Cost = 5,
+            };
+            
+            CharacterDto dto2 = new CharacterDto
             {
-                return null;
-            }
+                CharacterID = 2,
+                Name = "Joshua",
+                Cost = 6,
+            };
+            
+            CharacterDto dto3 = new CharacterDto
+            {
+                CharacterID = 3,
+                Name = "Will",
+                Cost = 7,
+            };
+            
+            StubDtOs.Add(dto1);
+            StubDtOs.Add(dto2);
+            StubDtOs.Add(dto3);
+
+            StubDto = StubDtOs.Find(character => character.CharacterID == characterID);
+            return StubDto;
         }
 
-        public List<CharacterDTO> GetCharacterbyUserID(int userID)
+        public List<CharacterDto> GetCharacterbyUserID(int userID)
         {
-            List<CharacterDTO> characters = new List<CharacterDTO>();
-            Random random = new Random();
-            
-            for (int i = 0; i < 30; i++)
+            UserDto user1 = new UserDto
             {
-                UserDTO dto = new UserDTO();
-                dto.UserID = random.Next(1,10);
-                CharacterDTO character = new CharacterDTO();
-                character.User = dto;
-                characters.Add(character);
-            }
+                UserID = 1,
+            };
+            UserDto user2 = new UserDto
+            {
+                UserID = 2,
+            };
+            UserDto user3 = new UserDto
+            {
+                UserID = 3,
+            };
 
-            characters.RemoveAll(x => x.User.UserID != userID);
+            CharacterDto dto1 = new CharacterDto
+            {
+                User = user1,
+                CharacterID = 1,
+                Name = "test123",
+                Cost = 5,
+            };
+            
+            
+            CharacterDto dto2 = new CharacterDto
+            {
+                User = user2,
+                CharacterID = 2,
+                Name = "Joshua",
+                Cost = 6,
+            };
+            
+            CharacterDto dto3 = new CharacterDto
+            {
+                User = user3,
+                CharacterID = 3,
+                Name = "Will",
+                Cost = 7,
+            };
+            
+            StubDtOs.Add(dto1);
+            StubDtOs.Add(dto2);
+            StubDtOs.Add(dto3);
 
-            return characters;
+            StubDtOs.RemoveAll(character => character.User.UserID != userID);
+            return StubDtOs;
 
         }
 

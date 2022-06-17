@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Project_Z_Interface
+﻿namespace Project_Z_Interface.DTO
 {
-    public class OccupationDTO
+    public class OccupationDto
     {
         public int OccupationID;
-        public string Name;
+        public string? Name;
         public int Cost;
     }
 }

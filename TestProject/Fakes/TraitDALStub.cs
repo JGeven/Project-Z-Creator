@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NuGet.Frameworks;
+﻿using System.Collections.Generic;
 using Project_Z_Interface;
+using Project_Z_Interface.DTO;
 
 namespace TestProject.Fakes
 {
-    public class TraitDALStub : ITraitsContainer
+    public class TraitDalStub : ITraitsContainer
     {
-        public List<TraitDTO> GetTraits()
+        public List<TraitDto> GetTraits()
         {
-            List<TraitDTO> list = new List<TraitDTO>();
-            TraitDTO dto = new TraitDTO();
+            List<TraitDto> list = new List<TraitDto>();
+            TraitDto dto = new TraitDto();
             dto.TraitID = 1;
             dto.Name = "Lucky";
             dto.Cost = 12;

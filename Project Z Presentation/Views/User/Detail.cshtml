@@ -17,19 +17,19 @@
 <div class="detail-form">
     <form asp-controller="User" asp-action="Detail" asp-route-userID="@Model.UserID">
         <div class="form-group">
-            <input asp-for=Name type="text" class="form-control" placeholder="@Model.Name" required="required">
+            <input asp-for="Name" type="text" class="form-control" placeholder="@Model.Name" required="required">
         </div>
         <div class="form-group">
-            <input asp-for=Email type="text" class="form-control" placeholder="@Model.Email" required="required">
+            <input asp-for="Email" type="text" class="form-control" placeholder="@Model.Email" required="required">
         </div>
         <div class="form-group">
-            <input type="password" asp-for=Password class="form-control" placeholder="..." required="required">
+            <input type="password" asp-for="Password" class="form-control" placeholder="..." required="required">
         </div>
         
         <br><br/>
         
-        @*<div>
-            <a asp-action=DeleteUser asp-controller=User  asp-route-userID=@Model.UserID class="btn btn-danger btn-block-custom btn2">Delete User</a>
-        </div>*@
+        <div>
+            <a asp-action="DeleteUser" asp-controller="User"  asp-route-userID="@Model.UserID" class="btn btn-danger btn-block-custom btn2">Delete User</a>
+        </div>
     </form>
 </div>

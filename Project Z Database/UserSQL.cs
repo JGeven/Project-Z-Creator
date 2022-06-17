@@ -1,107 +1,111 @@
 ﻿using System.Data.SqlClient;
+using System.Web.Helpers;
 using Project_Z_Interface;
 using Project_Z_Interface.DTO;
-using System.Web.Helpers;
 
 namespace Project_Z_Database
 {
-    public class UserSQL : SQLConnect, IUserContainer
+    public class UserSql : SqlConnect, IUserContainer
     {
-        public UserSQL()
+        public UserSql()
         {
             Initialize();
         }
-        
-        public List<UserDTO> GetUsers()
+
+        public UserDto GetUserbyID(int userID)
         {
-            OpenConnect();
-            cmd.CommandText = "SELECT * FROM [User]";
-
-            List<UserDTO> users = new List<UserDTO>();
-            using SqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
+            try
             {
-                UserDTO userDTO = new UserDTO()
+                OpenConnect();
+                Cmd.CommandText = "SELECT * FROM [User] WHERE UserID = @UserID";
+                Cmd.Parameters.AddWithValue("@UserID", userID);
+
+                UserDto userDto = null;
+                using SqlDataReader rdr = Cmd.ExecuteReader();
+
+                while (rdr.Read())
                 {
-                    UserID = rdr.GetInt32(0),
-                    Name = rdr.GetString(1),
-                    Email = rdr.GetString(2),
-                    Password = rdr.GetString(3)
-                };
-                    users.Add(userDTO);
+                    userDto = new UserDto
+                    {
+                        UserID = rdr.GetInt32(0),
+                        Name = rdr.GetString(1),
+                        Email = rdr.GetString(2),
+                        Password = rdr.GetString(3),
+                    };
+                }
+                return userDto;
             }
-            CloseConnect();
-            return users;
-        }
-        
-        public UserDTO GetUserbyID(int userID)
-        {
-            OpenConnect();
-            cmd.CommandText = "SELECT * FROM [User] WHERE UserID = @UserID";
-            cmd.Parameters.AddWithValue("@UserID", userID);
-
-            UserDTO userDTO = null;
-            using SqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
+            catch (SqlException)
             {
-                userDTO = new UserDTO()
-                {
-                    UserID = rdr.GetInt32(0),
-                    Name = rdr.GetString(1),
-                    Email = rdr.GetString(2),
-                    Password = rdr.GetString(3)
-                };
+                throw new Exception("No data could be found");
             }
-            CloseConnect();
-            return userDTO;
+            finally
+            {
+                CloseConnect();
+            }
         }
 
-        public bool EmailExist(string email)
+        public bool EmailExist(string? email)
         {
-            OpenConnect();
-            cmd.CommandText = "SELECT Count(1) FROM [User] WHERE Email = @Email";
-            cmd.Parameters.AddWithValue("@Email", email);
-            
-            int inUse = (int)cmd.ExecuteScalar();
-
-            CloseConnect();
-
-            if (inUse > 0)
+            try
             {
-                return true;
+                OpenConnect();
+                Cmd.CommandText = "SELECT Count(1) FROM [User] WHERE Email = @Email";
+                Cmd.Parameters.AddWithValue("@Email", email);
+
+                int inUse = (int)Cmd.ExecuteScalar();
+
+                if (inUse > 0)
+                {
+                    return true;
+                }
+                return false;
             }
-            else
+            catch (SqlException)
             {
                 return false;
             }
+            finally
+            {
+                CloseConnect();
+            }
+            
         }
 
-        public bool RegisterUser(UserDTO dto)
+        public bool RegisterUser(UserDto dto)
         {
-            OpenConnect();
-            cmd.Parameters.Clear();
-            cmd.CommandText = "INSERT INTO [User] (Name, Email, Password) VALUES (@Name, @Email, @Password)";
-            cmd.Parameters.AddWithValue("@Name", dto.Name);
-            cmd.Parameters.AddWithValue("@Email", dto.Email);
-            cmd.Parameters.AddWithValue("@Password", Crypto.HashPassword(dto.Password));
-                
-            cmd.ExecuteNonQuery();
-            CloseConnect();
-            return true;
+            try
+            {
+                OpenConnect();
+                Cmd.Parameters.Clear();
+                Cmd.CommandText = "INSERT INTO [User] (Name, Email, Password) VALUES (@Name, @Email, @Password)";
+                Cmd.Parameters.AddWithValue("@Name", dto.Name);
+                Cmd.Parameters.AddWithValue("@Email", dto.Email);
+                Cmd.Parameters.AddWithValue("@Password", Crypto.HashPassword(dto.Password));
+
+                Cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+            finally
+            {
+                CloseConnect();
+            }
         }
 
-        private bool PasswordCheck(string email, string password)
+        private bool PasswordCheck(string? email, string? password)
         {
             OpenConnect();
-            cmd.Parameters.Clear();
-            cmd.CommandText = "SELECT Password FROM [User] WHERE Email = @Email";
-            cmd.Parameters.AddWithValue("@Email", email);
+            Cmd.Parameters.Clear();
+            Cmd.CommandText = "SELECT Password FROM [User] WHERE Email = @Email";
+            Cmd.Parameters.AddWithValue("@Email", email);
 
             var hashpassword = "";
 
-            using SqlDataReader rdr = cmd.ExecuteReader();
+            using SqlDataReader rdr = Cmd.ExecuteReader();
 
             while (rdr.Read())
             {
@@ -114,35 +118,66 @@ namespace Project_Z_Database
             {
                 return true;
             }
-            else
+            return false;
+            
+        }
+
+        public UserDto Login(string? email, string? password)
+        {
+            try
+            {
+                UserDto userDto = null;
+                if (PasswordCheck(email, password))
+                {
+                    OpenConnect();
+                    Cmd.Parameters.Clear();
+                    Cmd.CommandText = "SELECT * FROM [User] WHERE Email = @Email";
+                    Cmd.Parameters.AddWithValue("@Email", email);
+
+                    using SqlDataReader rdr = Cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+                        userDto = new UserDto
+                        {
+                            UserID = rdr.GetInt32(0),
+                            Name = rdr.GetString(1),
+                            Email = rdr.GetString(2)
+                        };
+                    }
+                }
+                return userDto;
+            }
+            catch (SqlException)
+            {
+                throw new Exception("No data could be found");
+            }
+            finally
+            {
+                CloseConnect();
+            }
+            
+        }
+
+        public bool DeleteUser(int userID)
+        {
+            try
+            {
+                OpenConnect();
+
+                Cmd.CommandText = "DELETE FROM [User] WHERE UserID = @UserID";
+                Cmd.Parameters.AddWithValue("@UserID", userID);
+
+                Cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (SqlException)
             {
                 return false;
             }
-        }
-
-        public UserDTO Login(string email, string password)
-        {
-            UserDTO userDTO = new UserDTO();
-            if (PasswordCheck(email, password))
+            finally
             {
-                OpenConnect();
-                cmd.Parameters.Clear();
-                cmd.CommandText = "SELECT * FROM [User] WHERE Email = @Email";
-                cmd.Parameters.AddWithValue("@Email", email);
-
-                using SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                {
-                    userDTO = new UserDTO()
-                    {
-                        UserID = rdr.GetInt32(0),
-                        Name = rdr.GetString(1),
-                        Email = rdr.GetString(2)
-                    };
-                }
+                CloseConnect();
             }
-            CloseConnect();
-            return userDTO;
         }
     }
 }

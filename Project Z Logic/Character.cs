@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Project_Z_Interface;
+﻿using Project_Z_Interface;
 using Project_Z_Interface.DTO;
 
 namespace Project_Z_Logic
@@ -11,23 +6,18 @@ namespace Project_Z_Logic
     public class Character
     {
         public int CharacterID { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public int Cost { get; set; }
-        public OccupationDTO Occupation { get; set; }
-        public int[] arraytraits { get; set; }
-        public List<TraitDTO> Traits { get; set; }
-        public UserDTO User { get; set; }
+        public OccupationDto? Occupation { get; set; }
+        public int[]? Arraytraits { get; set; }
+        public List<TraitDto>? Traits { get; set; }
+        public UserDto? User { get; set; }
 
-        ICharacterContainer ICharacter;
-        
-        //Ready for convert
-        private int occupationID;
-        private string occupationName;
-        private int userID;
+        ICharacterContainer _character;
 
         public Character(ICharacterContainer dal)
         {
-            ICharacter = dal;
+            _character = dal;
         }
 
         public Character()
@@ -35,54 +25,62 @@ namespace Project_Z_Logic
             
         }
         
-        public Character(CharacterDTO Character)
+        public Character(CharacterDto character)
         {
-            this.CharacterID = Character.CharacterID;
-            this.Name = Character.Name;
-            this.Cost = Character.Cost;
-            this.Occupation = Character.Occupations;
-            this.Traits = Character.Traits;
-            this.arraytraits = Character.arraytraits;
-            this.User = Character.User;
+            CharacterID = character.CharacterID;
+            Name = character.Name;
+            Cost = character.Cost;
+            Occupation = character.Occupations;
+            Traits = character.Traits;
+            Arraytraits = character.Arraytraits;
+            User = character.User;
 
         }
 
-        public Character(string name, int cost, int occupationID, int[] traits, int userID)
+        public Character(string? name, int cost, int occupationID, int[]? traits, int userID)
         {
-            this.Name = name;
-            this.Cost = cost;
-            this.occupationID = occupationID;
-            this.arraytraits = traits;
-            this.userID = userID;
-
-        }
-        
-        public OccupationDTO ConvertOccupation()
-        {
-            OccupationDTO dto = new OccupationDTO();
-            dto.OccupationID = occupationID;
-            dto.Name = occupationName;
-            return dto;
-        }
-
-        public UserDTO ConvertUser()
-        {
-            UserDTO dto = new UserDTO();
-            dto.UserID = userID;
-            return dto;
+            Name = name;
+            Cost = cost;
+            Occupation = new OccupationDto
+            {
+                OccupationID = occupationID,
+            };
+            User = new UserDto
+            {
+                UserID = userID,
+            };
+            Arraytraits = traits;
         }
         
-        public CharacterDTO ToDTO()
+        public Character(int characterID,string? name, int cost, int occupationID, int[]? traits, int userID)
         {
-            CharacterDTO DTO = new CharacterDTO();
-            DTO.CharacterID = CharacterID;
-            DTO.Name = Name;
-            DTO.Cost = Cost;
-            DTO.Occupations = ConvertOccupation();
-            DTO.Traits = Traits;
-            DTO.arraytraits = arraytraits;
-            DTO.User = ConvertUser();
-            return DTO;
+            CharacterID = characterID;
+            Name = name;
+            Cost = cost;
+            Occupation = new OccupationDto
+            {
+                OccupationID = occupationID,
+            };
+            User = new UserDto
+            {
+                UserID = userID,
+            };
+            Arraytraits = traits;
+        }
+
+        public CharacterDto ToDto()
+        {
+            CharacterDto dto = new CharacterDto
+            {
+                CharacterID = CharacterID,
+                Name = Name,
+                Cost = Cost,
+                Occupations = Occupation,
+                Traits = Traits,
+                Arraytraits = Arraytraits,
+                User = User,
+            };
+            return dto;
         }
     }
 }

@@ -1,37 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
-using System.Data.Sql;
-using System.Configuration;
+﻿using System.Data.SqlClient;
 
 namespace Project_Z_Database
 {
     
-    public class SQLConnect
+    public class SqlConnect
     {
-        internal SqlCommand cmd;
-        internal SqlConnection conn;
+        internal SqlCommand Cmd;
+        private SqlConnection Conn;
 
         public void Initialize()
         {
             string connectionString = "Server=mssqlstud.fhict.local;Database=dbi495808;User Id=dbi495808;Password=Welkom01;";
-            conn = new SqlConnection(connectionString); ;
-            cmd = conn.CreateCommand();
+            Conn = new SqlConnection(connectionString);
+            Cmd = Conn.CreateCommand();
         }
 
         public bool OpenConnect()
         {
             try
             {
-                conn.Open();
+                Conn.Open();
                 return true;
             }
             catch (SqlException)
             {
-                return false;
+                throw new Exception("Connection could not be established");
             }
         }
 
@@ -39,12 +32,12 @@ namespace Project_Z_Database
         {
             try
             {
-                conn.Close();
+                Conn.Close();
                 return true;
             }
             catch (SqlException)
             {
-                return false;
+                throw new Exception("Connection could not be established");
             }
         }
     }

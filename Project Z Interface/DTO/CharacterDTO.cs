@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Project_Z_Interface.DTO
+﻿namespace Project_Z_Interface.DTO
 {
-    public class CharacterDTO
+    public class CharacterDto
     {
         public int CharacterID;
-        public string Name;
+        public string? Name;
         public int Cost;
-        public OccupationDTO Occupations;
-        public int[] arraytraits;
-        public List<TraitDTO> Traits;
-        public UserDTO User;
+        public OccupationDto? Occupations;
+        public int[]? Arraytraits;
+        public List<TraitDto>? Traits;
+        public UserDto? User;
     }
 }

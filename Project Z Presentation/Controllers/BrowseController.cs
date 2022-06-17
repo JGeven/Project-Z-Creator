@@ -1,7 +1,5 @@
-﻿using System.Dynamic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Project_Z_Database;
-using Project_Z_Interface;
 using Project_Z_Interface.DTO;
 using Project_Z_Logic;
 using Project_Z_Presentation.Models;
@@ -11,8 +9,8 @@ namespace Project_Z_Presentation.Controllers
     public class BrowseController : Controller
     {
         private CharacterContainer _characterContainer = new CharacterContainer(new CharacterSql());
-        private TraitsContainer _traitsContainer = new TraitsContainer(new TraitsSQL());
-        private OccupationContainer _occupationContainer = new OccupationContainer(new OccupationSQL());
+        private TraitsContainer _traitsContainer = new TraitsContainer(new TraitsSql());
+        private OccupationContainer _occupationContainer = new OccupationContainer(new OccupationSql());
         
         public bool LoggedIn()
         {
@@ -20,10 +18,7 @@ namespace Project_Z_Presentation.Controllers
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         
         [HttpGet]
@@ -40,7 +35,7 @@ namespace Project_Z_Presentation.Controllers
                 List<TraitViewModel> traitViewModels = new List<TraitViewModel>();
                 foreach (var trait in character.Traits)
                 {
-                    traitViewModels.Add(new TraitViewModel()
+                    traitViewModels.Add(new TraitViewModel
                     {
                         TraitID = trait.TraitID,
                         Name = trait.Name,
@@ -49,13 +44,13 @@ namespace Project_Z_Presentation.Controllers
                     });
                 }
 
-                OccupationViewModel occupationViewModel = new OccupationViewModel()
+                OccupationViewModel occupationViewModel = new OccupationViewModel
                 {
                     OccupationID = character.Occupation.OccupationID,
                     Name = character.Occupation.Name,
                     Cost = character.Occupation.Cost,
                 };
-                CharacterViewModel characterView = new CharacterViewModel()
+                CharacterViewModel characterView = new CharacterViewModel
                 {
                     CharacterID = character.CharacterID,
                     Name = character.Name,
@@ -80,28 +75,34 @@ namespace Project_Z_Presentation.Controllers
             Character character = _characterContainer.GetCharacterbyID(characterID);
             List<TraitViewModel> traitViewModels = new List<TraitViewModel>();
 
-            foreach (TraitDTO trait in character.Traits)
+            foreach (TraitDto trait in character.Traits)
             {
-                traitViewModels.Add(new TraitViewModel()
+                traitViewModels.Add(new TraitViewModel
                 {
                     TraitID = trait.TraitID,
                     Name = trait.Name,
                     Cost = trait.Cost,
                 });
             }
+
+            UserViewModel userViewModel = new UserViewModel()
+            {
+                UserID = character.User.UserID,
+            };
             
-            OccupationViewModel occupationViewModel = new OccupationViewModel()
+            OccupationViewModel occupationViewModel = new OccupationViewModel
             {
                 OccupationID = character.Occupation.OccupationID,
                 Name = character.Occupation.Name,
                 Cost = character.Occupation.Cost,
             };
                 
-            CharacterViewModel characterViewModel = new CharacterViewModel()
+            CharacterViewModel characterViewModel = new CharacterViewModel
             {
                 CharacterID = character.CharacterID,
                 Name = character.Name,
                 Cost = character.Cost,
+                User = userViewModel,
                 Occupation = occupationViewModel,
                 Traits = traitViewModels,
             };
@@ -109,21 +110,6 @@ namespace Project_Z_Presentation.Controllers
             ViewBag.Occupation = GetOccupation();
             ViewBag.Trait = GetTrait();
             return View(characterViewModel);
-        }
-
-        [HttpPost] 
-        public IActionResult Detail(CharacterViewModel characterViewModel,int characterID)
-        {
-            if (!LoggedIn())
-            {
-                return RedirectToAction("Login", "User");
-            }
-            
-            int userID = (int)HttpContext.Session.GetInt32("userID");
-            
-            Character character = new Character(characterViewModel.Name, characterViewModel.Cost, characterViewModel.occupationID, characterViewModel.arraytraits, userID);
-            _characterContainer.UpdateCharacter(character, characterID);
-            return RedirectToAction("Index", "Browse");
         }
 
         public IActionResult DeleteCharacter(int characterID)
@@ -147,8 +133,8 @@ namespace Project_Z_Presentation.Controllers
             
             int userID = (int)HttpContext.Session.GetInt32("userID");
             
-            Character character = new Character(characterViewModel.Name, characterViewModel.Cost, characterViewModel.occupationID, characterViewModel.arraytraits, userID);
-            _characterContainer.UpdateCharacter(character, characterID);
+            Character character = new Character(characterViewModel.CharacterID, characterViewModel.Name, characterViewModel.Cost, characterViewModel.OccupationID, characterViewModel.Arraytraits, userID);
+            _characterContainer.UpdateCharacter(character);
 
             return RedirectToAction("Index", "Browse");
         }

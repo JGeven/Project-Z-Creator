@@ -5,37 +5,39 @@ namespace Project_Z_Logic
     public class User
     {
         public int UserID { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? Password { get; set; }
 
         public User()
         {
             
         }
         
-        public User(string name, string email, string password)
+        public User(string? name, string? email, string? password)
         {
-            this.Name = name;
-            this.Email = email;
-            this.Password = password;
+            Name = name;
+            Email = email;
+            Password = password;
         }
 
-        public User(UserDTO dto)
+        public User(UserDto dto)
         {
-            this.UserID = dto.UserID;
-            this.Name = dto.Name;
-            this.Email = dto.Email;
-            this.Password = dto.Password;
+            UserID = dto.UserID;
+            Name = dto.Name;
+            Email = dto.Email;
+            Password = dto.Password;
         }
 
-        public UserDTO ToDTO()
+        public UserDto ToDto()
         {
-            UserDTO dto = new UserDTO();
-            dto.UserID = this.UserID;
-            dto.Name = this.Name;
-            dto.Email = this.Email;
-            dto.Password = this.Password;
+            UserDto dto = new UserDto
+            {
+                UserID = UserID,
+                Name = Name,
+                Email = Email,
+                Password = Password,
+            };
 
             return dto;
         }

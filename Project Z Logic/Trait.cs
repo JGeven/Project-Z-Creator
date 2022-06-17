@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Project_Z_Interface;
+﻿using Project_Z_Interface.DTO;
 
 namespace Project_Z_Logic
 {
     public class Trait
     {
-        public int TraitID { get; set; }
-        public string Name { get; set; }
-        public int Cost { get; set; }
+        public int TraitID { get; }
+        public string? Name { get; }
+        public int Cost { get; }
         public bool PosNeg { get; }
 
-        public Trait(TraitDTO Traits)
+        public Trait(TraitDto traits)
         {
-            this.TraitID = Traits.TraitID;
-            this.Name = Traits.Name;
-            this.Cost = Traits.Cost;
-            this.PosNeg = Traits.PosNeg;
+            TraitID = traits.TraitID;
+            Name = traits.Name;
+            Cost = traits.Cost;
+            PosNeg = traits.PosNeg;
         }
     }
 }

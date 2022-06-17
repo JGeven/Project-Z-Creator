@@ -1,6 +1,4 @@
-﻿@using Project_Z_Presentation.Models
-@using Project_Z_Logic
-@model CharacterViewModel
+﻿@model CharacterViewModel
 
 @{
     ViewBag.Title = "Create Character";
@@ -19,7 +17,7 @@
 <h2>Create character</h2>
 <form method="post" asp-action="Create" asp-controller="Creator">
     
-    <label for="occupations">Occupations</label>
+    <label>Occupations</label>
     <select class="form-control" id="occupationID" asp-for="Occupation.OccupationID">
         @foreach (OccupationViewModel viewModel in ViewBag.Occupation)
         {
@@ -29,11 +27,11 @@
 
     <br><br/>
 
-    <label for="postraits">Traits</label>
-    <select class="form-control" id="traitID" style="color: green" asp-for="arraytraits">
+    <label>Traits</label>
+    <select class="form-control" id="traitID" style="color: green" asp-for="Arraytraits" multiple>
         @foreach (TraitViewModel viewModel in ViewBag.Trait)
         {
-            @if (viewModel.PosNeg == true)
+            @if (viewModel.PosNeg)
             {
                 <option value="@viewModel.TraitID">@viewModel.Name</option>
             }
@@ -41,7 +39,7 @@
 
     </select>
     <br/><br/>
-    <select class="form-control" id="traitID" style="color: red" asp-for="arraytraits">
+    <select class="form-control" id="traitID" style="color: red" asp-for="Arraytraits" multiple>
         @foreach (TraitViewModel viewModel in ViewBag.Trait)
         {
             @if (viewModel.PosNeg == false)

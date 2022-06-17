@@ -4,9 +4,10 @@ namespace Project_Z_Interface
 {
     public interface IUserContainer
     {
-        public UserDTO Login(string email, string password);
-        public bool RegisterUser(UserDTO dto);
-        public bool EmailExist(string email);
-        public UserDTO GetUserbyID(int userID);
+        public UserDto Login(string? email, string? password);
+        public bool RegisterUser(UserDto dto);
+        public bool EmailExist(string? email);
+        public UserDto GetUserbyID(int userID);
+        public bool DeleteUser(int userID);
     }
 }

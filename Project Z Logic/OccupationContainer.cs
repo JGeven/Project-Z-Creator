@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Project_Z_Interface;
+﻿using Project_Z_Interface;
+using Project_Z_Interface.DTO;
 
 namespace Project_Z_Logic
 {
     public class OccupationContainer
     {
-        IOccupationContainer ioccupationContainer;
+        IOccupationContainer _ioccupationContainer;
 
         public OccupationContainer(IOccupationContainer dal)
         {
-            ioccupationContainer = dal;
+            _ioccupationContainer = dal;
         }
          
         public List<Occupations> GetOccupations()
         {
-            List<Occupations> Occupations = new List<Occupations>(); 
-            List<OccupationDTO> list = ioccupationContainer.GetOccupations();
-            foreach (OccupationDTO occupations in list)
+            List<Occupations> occupations = new List<Occupations>(); 
+            List<OccupationDto> list = _ioccupationContainer.GetOccupations();
+            foreach (OccupationDto occupationDto in list)
             {
-                Occupations newoccupation = new Occupations(occupations);
-                Occupations.Add(newoccupation);
+                Occupations newoccupation = new Occupations(occupationDto);
+                occupations.Add(newoccupation);
             }
-            return Occupations;
+            return occupations;
         }
 
     }

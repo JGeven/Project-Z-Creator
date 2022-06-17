@@ -5,39 +5,45 @@ namespace Project_Z_Logic
 {
     public class UserContainer
     {
-        private IUserContainer IUsercontainer;
+        private readonly IUserContainer _usercontainer;
 
-        public UserContainer(IUserContainer IUsercontainer)
+        public UserContainer(IUserContainer usercontainer)
         {
-            this.IUsercontainer = IUsercontainer;
+            _usercontainer = usercontainer;
         }
 
         public bool RegisterUser(User user)
         {
-            if (IUsercontainer.EmailExist(user.Email))
+            if (_usercontainer.EmailExist(user.Email))
             {
                 return false;
             }
-            else
-            {
-                UserDTO dto = user.ToDTO();
-                IUsercontainer.RegisterUser(dto);
-                return true;
-            }
+            UserDto dto = user.ToDto();
+            _usercontainer.RegisterUser(dto);
+            return true;
+            
         }
         
         public User GetUserbyID(int userID)
         {
-            UserDTO dto = IUsercontainer.GetUserbyID(userID);
+            UserDto dto = _usercontainer.GetUserbyID(userID);
             User user = new User(dto);
             return user;
         }
 
-        public User Login(string email, string password)
+        public User Login(string? email, string? password)
         {
-            UserDTO dto = IUsercontainer.Login(email, password);
-            User user = new User(dto);
-            return user;
+            UserDto dto = _usercontainer.Login(email, password);
+            if (dto == null)
+            {
+                return null;
+            }
+            return new User(dto);
+        }
+
+        public void DeleteUser(int userID)
+        {
+            _usercontainer.DeleteUser(userID);
         }
     }
 }

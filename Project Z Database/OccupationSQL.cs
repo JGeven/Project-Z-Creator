@@ -1,42 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using Project_Z_Interface;
+using Project_Z_Interface.DTO;
 
 namespace Project_Z_Database
 {
-    public class OccupationSQL : SQLConnect, IOccupationContainer
+    public class OccupationSql : SqlConnect, IOccupationContainer
     {
 
-        public OccupationSQL()
+        public OccupationSql()
         {
             Initialize();
         }
 
-        public List<OccupationDTO> GetOccupations()
+        public List<OccupationDto> GetOccupations()
         {
-            OpenConnect();
-            cmd.CommandText = "Select * From Occupations";
-
-            using SqlDataReader rdr = cmd.ExecuteReader();
-
-            List<OccupationDTO> list = new List<OccupationDTO>();
-
-            while (rdr.Read())
+            try
             {
-                OccupationDTO occupations = new OccupationDTO()
+                OpenConnect();
+                Cmd.CommandText = "Select * From Occupations";
+
+                using SqlDataReader rdr = Cmd.ExecuteReader();
+
+                List<OccupationDto> list = new List<OccupationDto>();
+
+                while (rdr.Read())
                 {
-                    OccupationID = rdr.GetInt32(0),
-                    Name = rdr.GetString(1),
-                    Cost = rdr.GetInt32(2),
-                };
-                list.Add(occupations);
+                    OccupationDto occupations = new OccupationDto
+                    {
+                        OccupationID = rdr.GetInt32(0),
+                        Name = rdr.GetString(1),
+                        Cost = rdr.GetInt32(2),
+                    };
+                    list.Add(occupations);
+                }
+                return list;
             }
-            CloseConnect();
-            return list;
+            catch (SqlException)
+            {
+                throw new Exception("No data could be found");
+            }
+            finally
+            {
+                CloseConnect();
+            }
+
         }
 
     }

@@ -7,7 +7,7 @@ namespace Project_Z_Presentation.Controllers
 {
     public class UserController : Controller
     {
-        private UserContainer _userContainer = new UserContainer(new UserSQL());
+        private UserContainer _userContainer = new UserContainer(new UserSql());
 
         public bool LoggedIn()
         {
@@ -15,10 +15,7 @@ namespace Project_Z_Presentation.Controllers
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public IActionResult LogOut()
@@ -37,7 +34,7 @@ namespace Project_Z_Presentation.Controllers
             }
 
             User user = _userContainer.GetUserbyID(userID);
-            UserViewModel userViewModel = new UserViewModel()
+            UserViewModel userViewModel = new UserViewModel
             {
                 UserID = user.UserID,
                 Name = user.Name,
@@ -55,10 +52,7 @@ namespace Project_Z_Presentation.Controllers
             {
                 return View();
             }
-            else
-            {
-                return RedirectToAction("Index", "Browse");
-            }
+            return RedirectToAction("Index", "Browse");
         }
 
         [HttpPost] 
@@ -67,22 +61,20 @@ namespace Project_Z_Presentation.Controllers
             if (HttpContext.Session.GetString("userID") == null)
             {
                 User user = _userContainer.Login(userViewModel.Email, userViewModel.Password);
+                if (user != null)
+                {
+                    HttpContext.Session.SetInt32("userID", user.UserID);
+                    HttpContext.Session.SetString("name", user.Name);
+                    HttpContext.Session.SetString("email", user.Email);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                RedirectToAction("Login", "User");
                 
-                HttpContext.Session.SetInt32("userID", user.UserID);
-                HttpContext.Session.SetString("name", user.Name);
-                HttpContext.Session.SetString("email", user.Email);
-
-                ViewData["Message"] = "Login Succesfull!";
-                ViewData["MessageClass"] = "alert-succes";
-
-                return RedirectToAction("Index", "Home");
-
+                
             }
-            else
-            {
-                return RedirectToAction("Login","User");
-            }
-            
+            return RedirectToAction("Login","User");
+
         }
         
         [HttpGet]
@@ -97,10 +89,29 @@ namespace Project_Z_Presentation.Controllers
             User user = new User(userViewModel.Name, userViewModel.Email, userViewModel.Password);
             if (_userContainer.RegisterUser(user))
             {
-                
+                return RedirectToAction("Login", "User");
             }
 
-            return RedirectToAction("Login", "User");
+            return RedirectToAction("Register", "User");
+        }
+
+        public IActionResult DeleteUser(int userID)
+        {
+            try
+            {
+                _userContainer.DeleteUser(userID);
+                
+                if (HttpContext.Session.GetInt32("userID") == userID)
+                {
+                    LogOut();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            return RedirectToAction("Index", "Home");
         }
         
 
@@ -109,7 +120,5 @@ namespace Project_Z_Presentation.Controllers
         {
             return View();
         }
-
-
     }
 }

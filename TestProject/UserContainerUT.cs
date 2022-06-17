@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Project_Z_Interface;
 using Project_Z_Interface.DTO;
@@ -9,50 +8,33 @@ using TestProject.Fakes;
 namespace TestProject
 {
     [TestClass]
-    public class UserContainerUT
+    public class UserContainerUt
     {
         [TestMethod] public void Email_Exist_True()
         {
             //Arrange
-            IUserContainer iContainer = new UserDALStub();
+            IUserContainer iContainer = new UserDalStub();
             
             bool expected;
             bool actual;
 
-            string email = "test@email.com";
+            User user = new User();
+            user.Email = "test@email.com";
 
             expected = true;
 
             //Act
-            actual = iContainer.EmailExist(email);
+            actual = iContainer.EmailExist(user.Email);
 
             //Assert
             Assert.AreEqual(expected, actual);
         }
-        
-        [TestMethod] public void Email_Exist_False()
-        {
-            //Arrange
-            IUserContainer iContainer = new UserDALStub();
-            
-            bool expected;
-            bool actual;
 
-            string email = "ditgaatfout@email.com";
-
-            expected = false;
-
-            //Act
-            actual = iContainer.EmailExist(email);
-
-            //Assert
-            Assert.AreEqual(expected, actual);
-        }
-        
         [TestMethod] public void Test_GetUserbyID_True()
         {
             //Arrange 
-            UserContainer container = new UserContainer(new UserDALStub());
+            UserDalStub stub = new UserDalStub();
+            UserContainer container = new UserContainer(stub);
             User actual = new User();
 
             User expected = new User();
@@ -74,15 +56,16 @@ namespace TestProject
         [TestMethod] public void Test_GetUserbyID_False()
         {
             //Arrange 
-            UserContainer container = new UserContainer(new UserDALStub());
-            User actual = new User();
+            UserContainer container = new UserContainer(new UserDalStub());
 
-            User expected = new User();
-            expected.UserID = 5;
-            expected.Name = "Test";
-            expected.Email = "test@email.com";
-            expected.Password = "welkom";
-            
+            User expected = new User
+            {
+                UserID = 5,
+                Name = "Test",
+                Email = "test@email.com",
+                Password = "welkom",
+            };
+
             //Act
             //Act is below by ExceptionCheck
 
@@ -93,11 +76,11 @@ namespace TestProject
         [TestMethod] public void Test_RegisterUser_True()
         {
             //Arrange
-            IUserContainer iContainer = new UserDALStub();
+            IUserContainer iContainer = new UserDalStub();
             bool expected;
             bool actual;
 
-            UserDTO user = new UserDTO();
+            UserDto user = new UserDto();
             user.Name = "Test";
             user.Email = "test@email.com";
             user.Password = "welkom";
@@ -110,39 +93,17 @@ namespace TestProject
             //Assert
             Assert.AreEqual(expected, actual);
         }
-        
-        [TestMethod] public void Test_RegisterUser_False()
-        {
-            //Arrange
-            IUserContainer iContainer = new UserDALStub();
-            bool expected;
-            bool actual;
-
-            UserDTO user = new UserDTO();
-            user.Name = "ndawd";
-            user.Email = "test@email.com";
-            user.Password = "welkom";
-
-            expected = false;
-
-            //Act
-            actual = iContainer.RegisterUser(user);
-
-            //Assert
-            Assert.AreEqual(expected, actual);
-        }
 
         [TestMethod] public void Test_Login_True()
         {
             //Arrange
-            UserContainer container = new UserContainer(new UserDALStub());
+            UserContainer container = new UserContainer(new UserDalStub());
             User actual = new User();
 
             User expected = new User();
             expected.Email = "test@email.com";
             expected.Password = "welkom";
             
-
             //Act
             actual = container.Login(expected.Email, expected.Password);
 
@@ -154,8 +115,7 @@ namespace TestProject
         [TestMethod] public void Test_Login_False()
         {
             //Arrange
-            UserContainer container = new UserContainer(new UserDALStub());
-            User actual = new User();
+            UserContainer container = new UserContainer(new UserDalStub());
 
             User expected = new User();
             expected.Email = "ditgaatfout@email.com";

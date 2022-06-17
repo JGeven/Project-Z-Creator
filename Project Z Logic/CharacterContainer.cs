@@ -1,30 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
-using System.Data.Sql;
-using Project_Z_Interface;
+﻿using Project_Z_Interface;
 using Project_Z_Interface.DTO;
 
 namespace Project_Z_Logic
 {
     public class CharacterContainer
     {
-        ICharacterContainer IcharacterContainer;
+        ICharacterContainer _icharacterContainer;
 
         public CharacterContainer(ICharacterContainer dal)
         {
-            IcharacterContainer = dal;
+            _icharacterContainer = dal;
         }
 
         public List<Character> GetCharacters()
         {
             List<Character> characters = new List<Character>();
-            List<CharacterDTO> list = IcharacterContainer.GetCharacters();
-            foreach (CharacterDTO character in list)
+            List<CharacterDto> list = _icharacterContainer.GetCharacters();
+            foreach (CharacterDto character in list)
             {
                 Character newCharacter = new Character(character);
                 characters.Add(newCharacter);
@@ -32,18 +24,18 @@ namespace Project_Z_Logic
             return characters;
         }
         
-        public Character GetCharacterbyID(int CharacterID)
+        public Character GetCharacterbyID(int characterID)
         {
-            CharacterDTO characterDTO = IcharacterContainer.GetCharacterbyID(CharacterID);
-            Character character = new Character(characterDTO);
+            CharacterDto characterDto = _icharacterContainer.GetCharacterbyID(characterID);
+            Character character = new Character(characterDto);
             return character;
         }
 
         public List<Character> GetCharacterbyUserID(int userID)
         {
-            List<CharacterDTO> characterDTOs = IcharacterContainer.GetCharacterbyUserID(userID);
+            List<CharacterDto> characterDtOs = _icharacterContainer.GetCharacterbyUserID(userID);
             List<Character> characters = new List<Character>();
-            foreach (CharacterDTO character in characterDTOs)
+            foreach (CharacterDto character in characterDtOs)
             {
                 Character newCharacter = new Character(character);
                 characters.Add(newCharacter);
@@ -53,19 +45,19 @@ namespace Project_Z_Logic
 
         public bool SaveCharacter(Character character)
         {
-            CharacterDTO dto = character.ToDTO();
-            return IcharacterContainer.SaveCharacter(dto);
+            CharacterDto dto = character.ToDto();
+            return _icharacterContainer.SaveCharacter(dto);
         }
         
         public bool DeleteCharacter(int characterID)
         {
-            return IcharacterContainer.DeleteCharacter(characterID);
+            return _icharacterContainer.DeleteCharacter(characterID);
         }
 
-        public bool UpdateCharacter(Character character,int characterID)
+        public bool UpdateCharacter(Character character)
         {
-            CharacterDTO dto = character.ToDTO();
-            return IcharacterContainer.UpdateCharacter(dto, characterID);
+            CharacterDto dto = character.ToDto();
+            return _icharacterContainer.UpdateCharacter(dto);
         }
     }
 }

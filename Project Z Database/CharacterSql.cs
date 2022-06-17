@@ -1,192 +1,243 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
 using Project_Z_Interface;
 using Project_Z_Interface.DTO;
-using Project_Z_Logic;
 
 namespace Project_Z_Database
 {
-    public class CharacterSql : SQLConnect, ICharacterContainer
+    public class CharacterSql : SqlConnect, ICharacterContainer
     {
-        private TraitsSQL _traitsSQL = new TraitsSQL();
+        private TraitsSql _traitsSql = new TraitsSql();
         
         public CharacterSql()
         {
             Initialize();
         }
 
-        public bool SaveCharacter(CharacterDTO dto)
+        public bool SaveCharacter(CharacterDto dto)
         {
-            if (OpenConnect())
+            try
             {
-
-                cmd.CommandText = "INSERT INTO Characters (name, cost, occupationid, userid) output INSERTED.CharacterID VALUES(@Name, @Cost, @Occupation, @User)";
-                cmd.Parameters.AddWithValue("@Name", dto.Name);
-                cmd.Parameters.AddWithValue("@Cost", dto.Cost);
-                cmd.Parameters.AddWithValue("@Occupation", dto.Occupations.OccupationID);
-                cmd.Parameters.AddWithValue("@User", dto.User.UserID);
-                int CharacterID = (int) cmd.ExecuteScalar();
-
-                foreach (int trait in dto.arraytraits)
+                OpenConnect();
                 {
-                    _traitsSQL.SaveTrait(trait, CharacterID);
-                }
 
-                CloseConnect();
-                return true;
+                    Cmd.CommandText = "INSERT INTO Characters (name, cost, occupationid, userid) output INSERTED.CharacterID VALUES(@Name, @Cost, @Occupation, @User)";
+                    Cmd.Parameters.AddWithValue("@Name", dto.Name);
+                    Cmd.Parameters.AddWithValue("@Cost", dto.Cost);
+                    Cmd.Parameters.AddWithValue("@Occupation", dto.Occupations.OccupationID);
+                    Cmd.Parameters.AddWithValue("@User", dto.User.UserID);
+                    int characterID = (int)Cmd.ExecuteScalar();
+
+                    foreach (int trait in dto.Arraytraits)
+                    {
+                        _traitsSql.SaveTrait(trait, characterID);
+                    }
+                    return true;
+                }
             }
-            else
+            catch (SqlException)
+            {
                 return false;
+            }
+            finally
+            {
+                CloseConnect();
+            }
+
         }
 
         public bool DeleteCharacter(int characterID)
         {
-            if (OpenConnect())
+            try
             {
-                cmd.CommandText = "DELETE FROM Characters Where CharacterID = @CharacterID";
-                cmd.Parameters.AddWithValue("@CharacterID", characterID);
+                OpenConnect();
+                Cmd.CommandText = "DELETE FROM Characters Where CharacterID = @CharacterID";
+                Cmd.Parameters.AddWithValue("@CharacterID", characterID);
 
-                _traitsSQL.DeleteTrait(characterID);
-                
-                cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
-                CloseConnect();
+                _traitsSql.DeleteTrait(characterID);
+
+                Cmd.ExecuteNonQuery();
+                Cmd.Parameters.Clear();
                 return true;
             }
-            return false;
- 
-        }
-
-        public bool UpdateCharacter(CharacterDTO dto, int characterID)
-        {
-            if (OpenConnect())
-            {
-                cmd.CommandText = "UPDATE Characters SET Name = @Name, Cost = @Cost, OccupationID = @Occupation WHERE CharacterID = @CharacterID";
-
-                cmd.Parameters.AddWithValue("@Name", dto.Name);
-                cmd.Parameters.AddWithValue("@Cost", dto.Cost);
-                cmd.Parameters.AddWithValue("@Occupation", dto.Occupations.OccupationID);
-                cmd.Parameters.AddWithValue("@CharacterID", characterID);
-
-                _traitsSQL.DeleteTrait(characterID);
-                foreach (int trait in dto.arraytraits)
-                {
-                    _traitsSQL.UpdateTrait(trait, characterID);
-                }
-
-                cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
-                CloseConnect();
-                return true;
-            }
-            else
+            catch (SqlException)
             {
                 return false;
             }
+            finally
+            {
+                CloseConnect();
+            }
+        }
+
+        public bool UpdateCharacter(CharacterDto dto)
+        {
+            try
+            {
+                OpenConnect();
+                
+                Cmd.CommandText = "UPDATE Characters SET Name = @Name, Cost = @Cost, OccupationID = @Occupation WHERE CharacterID = @CharacterID";
+
+                Cmd.Parameters.AddWithValue("@Name", dto.Name); 
+                Cmd.Parameters.AddWithValue("@Cost", dto.Cost);
+                Cmd.Parameters.AddWithValue("@Occupation", dto.Occupations.OccupationID);
+                Cmd.Parameters.AddWithValue("@CharacterID", dto.CharacterID);
+
+                _traitsSql.DeleteTrait(dto.CharacterID);
+                foreach (int trait in dto.Arraytraits)
+                {
+                    _traitsSql.UpdateTrait(trait, dto.CharacterID);
+                }
+
+                Cmd.ExecuteNonQuery();
+                Cmd.Parameters.Clear();
+                return true;
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+            finally
+            {
+                CloseConnect();
+            }
         }
         
-        public List<CharacterDTO> GetCharacters()
+        public List<CharacterDto> GetCharacters()
         {
-            OpenConnect();
-            cmd.CommandText = 
-                "SELECT Characters.CharacterID, Characters.Name, Characters.Cost, Occupations.Name FROM Characters INNER JOIN Occupations ON Characters.OccupationID=Occupations.OccupationID";
-            using SqlDataReader rdr = cmd.ExecuteReader();
-
-            List<CharacterDTO> list = new List<CharacterDTO>();
-            CharacterDTO characters = new CharacterDTO();
-
-            while (rdr.Read())
+            try
             {
-                characters = new CharacterDTO
-                {
-                    CharacterID = rdr.GetInt32(0),
-                    Name = rdr.GetString(1),
-                    Cost = rdr.GetInt32(2),
-                    Traits = _traitsSQL.GetTraitbyID(characters.CharacterID),
-                };
-                
-                OccupationDTO occupation = new OccupationDTO
-                {
-                    Name = rdr.GetString(3),
-                };
+                OpenConnect();
+                Cmd.CommandText =
+                    "SELECT Characters.CharacterID, Characters.Name, Characters.Cost, Occupations.Name FROM Characters INNER JOIN Occupations ON Characters.OccupationID=Occupations.OccupationID";
+                using SqlDataReader rdr = Cmd.ExecuteReader();
 
-                List<TraitDTO> traits = _traitsSQL.GetTraitbyID(characters.CharacterID);
-                characters.Traits = traits;
-                characters.Occupations = occupation;
-                list.Add(characters);
+                List<CharacterDto> list = new List<CharacterDto>();
+                CharacterDto characters = new CharacterDto();
+
+                while (rdr.Read())
+                {
+                    characters = new CharacterDto
+                    {
+                        CharacterID = rdr.GetInt32(0),
+                        Name = rdr.GetString(1),
+                        Cost = rdr.GetInt32(2),
+                        Traits = _traitsSql.GetTraitbyID(characters.CharacterID),
+                    };
+
+                    OccupationDto? occupation = new OccupationDto
+                    {
+                        Name = rdr.GetString(3),
+                    };
+
+                    List<TraitDto>? traits = _traitsSql.GetTraitbyID(characters.CharacterID);
+                    characters.Traits = traits;
+                    characters.Occupations = occupation;
+                    list.Add(characters);
+                }
+                return list;
             }
-            CloseConnect();
-            return list;
+            catch (NullReferenceException)
+            {
+                throw new Exception("No data could be found");
+            }
+            finally
+            {
+                CloseConnect();
+            }
         }
 
-        public CharacterDTO GetCharacterbyID(int characterID)
+        public CharacterDto GetCharacterbyID(int characterID)
         {
-            CharacterDTO character = new CharacterDTO();
-            OpenConnect();
-            cmd.CommandText =
-                "SELECT Characters.CharacterID, Characters.Name, Characters.Cost, Occupations.Name FROM Characters INNER JOIN Occupations ON Characters.OccupationID=Occupations.OccupationID WHERE Characters.CharacterID = @CharacterID";
-            cmd.Parameters.AddWithValue("@CharacterID", characterID);
-            
-            using (SqlDataReader rdr = cmd.ExecuteReader())
+            try
             {
-                rdr.Read();
-                character = new CharacterDTO()
+                CharacterDto character = new CharacterDto();
+                OpenConnect();
+                Cmd.CommandText =
+                    "SELECT Characters.CharacterID, Characters.Name, Characters.Cost, Characters.UserID, Occupations.Name FROM Characters INNER JOIN Occupations ON Characters.OccupationID=Occupations.OccupationID WHERE Characters.CharacterID = @CharacterID";
+                Cmd.Parameters.AddWithValue("@CharacterID", characterID);
+
+                using (SqlDataReader rdr = Cmd.ExecuteReader())
                 {
-                    CharacterID = rdr.GetInt32(0),
-                    Name = rdr.GetString(1),
-                    Cost = rdr.GetInt32(2),
-                };
-                
-                OccupationDTO occupation = new OccupationDTO
-                {
-                    Name = rdr.GetString(3),
-                };
-                
-                List<TraitDTO> traits = _traitsSQL.GetTraitbyID(characterID);
-                character.Traits = traits;
-                character.Occupations = occupation;
+                    rdr.Read();
+                    character = new CharacterDto
+                    {
+                        CharacterID = rdr.GetInt32(0),
+                        Name = rdr.GetString(1),
+                        Cost = rdr.GetInt32(2),
+                    };
+                    
+                    UserDto user = new UserDto()
+                    {
+                        UserID = rdr.GetInt32(3),
+                    };
+
+                    OccupationDto? occupation = new OccupationDto
+                    {
+                        Name = rdr.GetString(4),
+                    };
+
+                    List<TraitDto>? traits = _traitsSql.GetTraitbyID(characterID);
+                    character.Traits = traits;
+                    character.Occupations = occupation;
+                    character.User = user;
+                }
+                return character;
             }
-            CloseConnect();
-            return character;
+            catch (NullReferenceException)
+            {
+                throw new Exception("No data could be found");
+            }
+            finally
+            {
+                CloseConnect();
+            }
+
         }
 
-        public List<CharacterDTO> GetCharacterbyUserID(int userID)
+        public List<CharacterDto> GetCharacterbyUserID(int userID)
         {
-            OpenConnect();
-            cmd.CommandText = 
-                "SELECT Characters.CharacterID, Characters.Name, Characters.Cost, Occupations.Name FROM Characters INNER JOIN Occupations ON Characters.OccupationID=Occupations.OccupationID WHERE Characters.UserID = @User";
-            cmd.Parameters.AddWithValue("@User", userID);
-            using SqlDataReader rdr = cmd.ExecuteReader();
-
-            List<CharacterDTO> list = new List<CharacterDTO>();
-            CharacterDTO characters = new CharacterDTO();
-
-            while (rdr.Read())
+            try
             {
-                characters = new CharacterDTO
-                {
-                    CharacterID = rdr.GetInt32(0),
-                    Name = rdr.GetString(1),
-                    Cost = rdr.GetInt32(2),
-                    Traits = _traitsSQL.GetTraitbyID(characters.CharacterID),
-                };
-                
-                OccupationDTO occupation = new OccupationDTO
-                {
-                    Name = rdr.GetString(3),
-                };
+                OpenConnect();
+                Cmd.CommandText =
+                    "SELECT Characters.CharacterID, Characters.Name, Characters.Cost, Occupations.Name FROM Characters INNER JOIN Occupations ON Characters.OccupationID=Occupations.OccupationID WHERE Characters.UserID = @User";
+                Cmd.Parameters.AddWithValue("@User", userID);
+                using SqlDataReader rdr = Cmd.ExecuteReader();
 
-                List<TraitDTO> traits = _traitsSQL.GetTraitbyID(characters.CharacterID);
-                characters.Traits = traits;
-                characters.Occupations = occupation;
-                list.Add(characters);
+                List<CharacterDto> list = new List<CharacterDto>();
+                CharacterDto characters = new CharacterDto();
+
+                while (rdr.Read())
+                {
+                    characters = new CharacterDto
+                    {
+                        CharacterID = rdr.GetInt32(0),
+                        Name = rdr.GetString(1),
+                        Cost = rdr.GetInt32(2),
+                        Traits = _traitsSql.GetTraitbyID(characters.CharacterID),
+                    };
+
+                    OccupationDto? occupation = new OccupationDto
+                    {
+                        Name = rdr.GetString(3),
+                    };
+
+                    List<TraitDto>? traits = _traitsSql.GetTraitbyID(characters.CharacterID);
+                    characters.Traits = traits;
+                    characters.Occupations = occupation;
+                    list.Add(characters);
+                }
+                return list;
             }
-            CloseConnect();
-            return list;
+            catch (NullReferenceException)
+            {
+                throw new Exception("No data could be found");
+            }
+            finally
+            {
+                CloseConnect();
+            }
+
         }
     }
 }

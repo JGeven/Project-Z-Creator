@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Update Character";
     Layout = "_Layout";
+
+    int userID = (int)Context.Session.GetInt32("userID");
     
     @if (ViewData["Message"] != null)
     {
@@ -13,55 +15,57 @@
 }
 
 
-<form method="post" asp-controller=Browse asp-action=UpdateCharacter asp-route-characterID=@Model.CharacterID>
+<form method="post" asp-controller="Browse" asp-action="UpdateCharacter" asp-route-characterID="@Model.CharacterID">
     <h2><input type="text" name="Description" style="border: none; display: inline-block;" value="@Model.Name" /></h2>
     <p><b>Cost:</b> <input type="text" name="Description" style="border: none; display: inline-block;" value="@Model.Cost" /></p>
     <p><b>Occupation:</b> @Model.Occupation.Name</p>
-    <p><b>OccupationID:</b> @Model.CharacterID</p>
-    
+
     <label>Traits</label>
-    @foreach (var item in Model.Traits)
+    @foreach (var trait in Model.Traits)
     {
-        <p><b>@item.Name</b></p>
+        <p><b>@trait.Name</b></p>
     }
     
-    <select class="form-control" id="occupationID" asp-for="occupationID">
-        @foreach (OccupationViewModel viewModel in ViewBag.Occupation)
-        {
-            <option value="@viewModel.OccupationID">@viewModel.Name</option>
-        }
-    </select>
+    @if (Model.User.UserID == userID)
+    {
+        <select class="form-control" id="occupationID" asp-for="OccupationID">
+            @foreach (OccupationViewModel viewModel in ViewBag.Occupation)
+            {
+                <option value="@viewModel.OccupationID">@viewModel.Name</option>
+            }
+        </select>
     
-    <label for="postraits">Traits</label>
-    <select class="form-control" id="traitID" style="color: green" asp-for="arraytraits">
-        @foreach (TraitViewModel viewModel in ViewBag.Trait)
-        {
-            @if (viewModel.PosNeg == true)
+        <label>Traits</label>
+        <select class="form-control" id="traitID" style="color: green" asp-for="Arraytraits">
+            @foreach (TraitViewModel viewModel in ViewBag.Trait)
             {
-                <option value="@viewModel.TraitID">@viewModel.Name</option>
+                @if (viewModel.PosNeg)
+                {
+                    <option value="@viewModel.TraitID">@viewModel.Name</option>
+                }
             }
-        }
 
-    </select>
-    <br/><br/>
-    <select class="form-control" id="traitID" style="color: red" asp-for="arraytraits">
-        @foreach (TraitViewModel viewModel in ViewBag.Trait)
-        {
-            @if (viewModel.PosNeg == false)
+        </select>
+        <br/><br/>
+        <select class="form-control" id="traitID" style="color: red" asp-for="Arraytraits">
+            @foreach (TraitViewModel viewModel in ViewBag.Trait)
             {
-                <option value="@viewModel.TraitID">@viewModel.Name</option>
+                @if (viewModel.PosNeg == false)
+                {
+                    <option value="@viewModel.TraitID">@viewModel.Name</option>
+                }
             }
-        }
-    </select>
+        </select>
     
         <div class="form-group">
             <input asp-for="Name" type="text" class="form-control" placeholder="@Model.Name" required="required">
         </div>
-    
-    <button type="submit" class="btn btn-primary submit">Update Character</button>
-    <div>
-        <a asp-action=DeleteCharacter asp-controller=Browse  asp-route-characterID=@Model.CharacterID class="btn btn-danger btn-block-custom btn2">Delete character</a>
-    </div>
+        <button type="submit" class="btn btn-primary submit">Update Character</button>
+        <div>
+            <a asp-action="DeleteCharacter" asp-controller="Browse"  asp-route-characterID="@Model.CharacterID" class="btn btn-danger btn-block-custom btn2">Delete character</a>
+        </div>
+    }
+
     
 </form>
 

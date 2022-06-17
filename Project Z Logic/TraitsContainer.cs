@@ -1,30 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Project_Z_Interface;
+﻿using Project_Z_Interface;
+using Project_Z_Interface.DTO;
 
 namespace Project_Z_Logic
 {
     public class TraitsContainer
     {
-        ITraitsContainer itraitsContainer;
+        ITraitsContainer _itraitsContainer;
 
         public TraitsContainer(ITraitsContainer dal)
         {
-            itraitsContainer = dal;
+            _itraitsContainer = dal;
         }
         public List<Trait> GetTraits()
         {
-            List<Trait> Traits = new List<Trait>();
-            List<TraitDTO> list = itraitsContainer.GetTraits();
-            foreach (TraitDTO traits in list)
+            List<Trait> traits = new List<Trait>();
+            List<TraitDto> list = _itraitsContainer.GetTraits();
+            foreach (TraitDto traitsDto in list)
             {
-                Trait newtrait = new Trait(traits);
-                Traits.Add(newtrait);
+                Trait newtrait = new Trait(traitsDto);
+                traits.Add(newtrait);
             }
-            return Traits;
+            return traits;
         }
     }
 }
