@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
+using System.Data.SqlClient;
 using Project_Z_Interface;
 using Project_Z_Interface.DTO;
 
@@ -47,7 +48,7 @@ namespace Project_Z_Database
             {
                 OpenConnect();
 
-                Cmd.CommandText = "SELECT [User].Name, Rating.Comment FROM LinkCharUserRate INNER JOIN [User] ON LinkCharUserRate.UserID=[User].UserID INNER JOIN Rating ON LinkCharUserRate.ReviewID=Rating.ReviewID WHERE LinkCharUserRate.CharacterID=@CharacterID";
+                Cmd.CommandText = "SELECT LinkCharUserRate.ReviewID, [User].Name, [User].UserID, Rating.Comment, Rating.Rating FROM LinkCharUserRate INNER JOIN [User] ON LinkCharUserRate.UserID=[User].UserID INNER JOIN Rating ON LinkCharUserRate.ReviewID=Rating.ReviewID WHERE LinkCharUserRate.CharacterID=@CharacterID";
                 Cmd.Parameters.AddWithValue("@CharacterID", characterID);
                 
                 SqlDataReader rdr = Cmd.ExecuteReader();
@@ -57,8 +58,11 @@ namespace Project_Z_Database
                 {
                     ReviewDTO review = new ReviewDTO()
                     {
-                        UserName = rdr.GetString(0),
-                        Comment = rdr.GetString(1),
+                        ReviewID = rdr.GetInt32(0),
+                        UserName = rdr.GetString(1),
+                        UserID = rdr.GetInt32(2),
+                        Comment = rdr.GetString(3),
+                        Rating = rdr.GetInt32(4),
                     };
                     list.Add(review);
                 }
@@ -69,6 +73,85 @@ namespace Project_Z_Database
             catch (SqlException)
             {
                 throw new Exception("No data was found");
+            }
+            finally
+            {
+                CloseConnect();
+            }
+        }
+
+        public bool DeleteReview(int reviewID)
+        {
+            try
+            {
+                OpenConnect();
+
+                Cmd.CommandText = "DELETE FROM Rating WHERE ReviewID = @ReviewID";
+                Cmd.Parameters.AddWithValue("@ReviewID", reviewID);
+
+                Cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+            finally
+            {
+                CloseConnect();
+            }
+        }
+
+        public bool UpdateReview(ReviewDTO dto)
+        {
+            try
+            {
+                OpenConnect();
+
+                Cmd.CommandText = "UPDATE Rating SET Rating = @Rating, Comment = @Comment WHERE ReviewID = @ReviewID";
+                Cmd.Parameters.AddWithValue("@Rating", dto.Rating);
+                Cmd.Parameters.AddWithValue("@Comment", dto.Comment);
+                Cmd.Parameters.AddWithValue("@ReviewID", dto.ReviewID);
+
+                Cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+            finally
+            {
+                CloseConnect();
+            }
+        }
+
+        public ReviewDTO GetReviewbyID(int reviewID)
+        {
+            try
+            {
+                OpenConnect();
+
+                Cmd.CommandText = "SELECT * FROM Rating WHERE ReviewID = @ReviewID";
+                Cmd.Parameters.AddWithValue("@ReviewID", reviewID);
+
+                SqlDataReader rdr = Cmd.ExecuteReader();
+                ReviewDTO review = new ReviewDTO();
+
+                while (rdr.Read())
+                {
+                    review = new ReviewDTO()
+                    {
+                        ReviewID = rdr.GetInt32(0),
+                        Rating = rdr.GetInt32(1),
+                        Comment = rdr.GetString(2),
+                    };
+                }
+                return review;
+            }
+            catch (SqlException)
+            {
+                throw new Exception("No data could be found");
             }
             finally
             {

@@ -81,8 +81,11 @@ namespace Project_Z_Presentation.Controllers
             {
                 reviewViewModels.Add(new ReviewViewModel
                 {
+                    ReviewID = review.ReviewID,
                     UserName = review.UserName,
+                    UserID = review.UserID,
                     Comment = review.Comment,
+                    Rating = review.Rating,
                 });
             }
             
@@ -132,7 +135,7 @@ namespace Project_Z_Presentation.Controllers
             return View(reviewViewModel);
         }
 
-        [HttpPost] 
+        [HttpPost]
         public IActionResult CreateComment(ReviewViewModel reviewViewModel, int characterID)
         {
             if (!LoggedIn())
@@ -144,6 +147,52 @@ namespace Project_Z_Presentation.Controllers
 
             Review review = new Review(reviewViewModel.Rating, reviewViewModel.Comment);
             _reviewContainer.CreateReview(review, characterID, userID);
+
+            return RedirectToAction("Index", "Browse");
+        }
+
+        [HttpGet] public IActionResult Review(int reviewID)
+        {
+            if (!LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            Review review = _reviewContainer.GetReviewbyID(reviewID);
+
+            ReviewViewModel reviewViewModel = new ReviewViewModel()
+            {
+                ReviewID = review.ReviewID,
+                Comment = review.Comment,
+                Rating = review.Rating,
+            };
+
+            return View(reviewViewModel);
+        }
+
+        public IActionResult DeleteReview(int reviewID)
+        {
+            if (!LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            _reviewContainer.DeleteReview(reviewID);
+
+            return RedirectToAction("Index", "Browse");
+        }
+
+        public IActionResult UpdateReview(ReviewViewModel reviewViewModel, int reviewID)
+        {
+            if (!LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            reviewViewModel.ReviewID = reviewID;
+            
+            Review review = new Review(reviewViewModel.ReviewID, reviewViewModel.Rating, reviewViewModel.Comment);
+            _reviewContainer.UpdateReview(review);
 
             return RedirectToAction("Index", "Browse");
         }

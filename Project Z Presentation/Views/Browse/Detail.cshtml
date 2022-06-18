@@ -1,10 +1,12 @@
-﻿@model CharacterViewModel
+﻿@using Project_Z_Database
+@model CharacterViewModel
 
 
 @{
     ViewBag.Title = "Update Character";
     Layout = "_Layout";
     int userID = (int)Context.Session.GetInt32("userID");
+    ViewBag.Reviews = Model.Reviews;
     
     @if (ViewData["Message"] != null)
     {
@@ -66,24 +68,31 @@
         </div>
     }
     
-    @if (Model.User.UserID != userID)
-    {
-        <button type="button">
-            <a asp-controller="Browse" asp-action="Comment" asp-route-characterID="@Model.CharacterID">Create comment</a>
-        </button>
-    }
+        @if (Model.User.UserID != userID)
+        {
+            <button type="button">
+                <a asp-controller="Browse" asp-action="Comment" asp-route-characterID="@Model.CharacterID">Create comment</a>
+            </button>
+        }
     
     @foreach (var review in Model.Reviews)
     {
-        <div>
-            <span class="d-block font-weight-bold name">@review.UserName</span>
+        <div style="border: black">
+            <span class="d-block font-weight-bold name"><b>@review.UserName</b></span>
             <div class="mt-2">
                 <p class="comment-text">@review.Comment</p>
             </div>
+            <div class="mt-2">
+                <p class="comment-text">@review.Rating</p>
+            </div>
+            @if (review.UserID == userID)
+            {
+                <div><a asp-action="Review" asp-controller="Browse"  asp-route-reviewID="@review.ReviewID" class="btn btn-primary">Update review</a></div>
+                <div><a asp-action="DeleteReview" asp-controller="Browse"  asp-route-reviewID="@review.ReviewID" class="btn btn-danger btn-block-custom btn2">Delete review</a></div>
+            }
         </div>
-    }
 
-    
+    }
 </form>
 
 

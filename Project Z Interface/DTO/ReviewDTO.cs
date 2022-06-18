@@ -6,6 +6,7 @@
         public int Rating;
         public string Comment;
 
+        public int UserID;
         public string UserName;
     }
 }

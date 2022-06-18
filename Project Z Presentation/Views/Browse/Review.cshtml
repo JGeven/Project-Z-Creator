@@ -1,0 +1,19 @@
+﻿@model ReviewViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Review</h2>
+
+<form method="post" asp-controller="Browse" asp-action="UpdateReview" asp-route-reviewID="@Model.ReviewID">
+      <div class="form-group">
+          <input asp-for="Comment" type="text" class="form-control" placeholder="@Model.Comment" required="required">
+      </div>
+    <div class="form-group">
+        <input asp-for="Rating" type="number" class="form-control" min="1" max="5" placeholder="@Model.Rating" required="required">
+    </div>
+    
+    <button type="submit" class="btn btn-primary submit">Update review</button>
+</form>
