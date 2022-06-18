@@ -9,5 +9,6 @@
         public int[]? Arraytraits;
         public List<TraitDto>? Traits;
         public UserDto? User;
+        public List<ReviewDTO> Reviews;
     }
 }

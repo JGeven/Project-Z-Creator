@@ -12,6 +12,7 @@ namespace Project_Z_Logic
         public int[]? Arraytraits { get; set; }
         public List<TraitDto>? Traits { get; set; }
         public UserDto? User { get; set; }
+        public List<ReviewDTO> Reviews { get; set; }
 
         ICharacterContainer _character;
 
@@ -34,7 +35,7 @@ namespace Project_Z_Logic
             Traits = character.Traits;
             Arraytraits = character.Arraytraits;
             User = character.User;
-
+            Reviews = character.Reviews;
         }
 
         public Character(string? name, int cost, int occupationID, int[]? traits, int userID)

@@ -1,9 +1,9 @@
 ﻿@model CharacterViewModel
 
+
 @{
     ViewBag.Title = "Update Character";
     Layout = "_Layout";
-
     int userID = (int)Context.Session.GetInt32("userID");
     
     @if (ViewData["Message"] != null)
@@ -63,6 +63,23 @@
         <button type="submit" class="btn btn-primary submit">Update Character</button>
         <div>
             <a asp-action="DeleteCharacter" asp-controller="Browse"  asp-route-characterID="@Model.CharacterID" class="btn btn-danger btn-block-custom btn2">Delete character</a>
+        </div>
+    }
+    
+    @if (Model.User.UserID != userID)
+    {
+        <button type="button">
+            <a asp-controller="Browse" asp-action="Comment" asp-route-characterID="@Model.CharacterID">Create comment</a>
+        </button>
+    }
+    
+    @foreach (var review in Model.Reviews)
+    {
+        <div>
+            <span class="d-block font-weight-bold name">@review.UserName</span>
+            <div class="mt-2">
+                <p class="comment-text">@review.Comment</p>
+            </div>
         </div>
     }
 

@@ -6,7 +6,7 @@ namespace Project_Z_Database
     public class SqlConnect
     {
         internal SqlCommand Cmd;
-        private SqlConnection Conn;
+        public SqlConnection Conn;
 
         public void Initialize()
         {

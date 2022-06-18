@@ -1,0 +1,18 @@
+﻿@model ReviewViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+
+}
+
+<h2>Create a Comment</h2>
+
+<form method="post" asp-action="CreateComment" asp-controller="Browse" asp-route-characterID="@Model.CharacterID">
+    <div class="form-group">
+        <input asp-for="Comment" type="text" class="form-control" placeholder="Comment" required="required">
+    </div>
+
+    <br><br/>
+        <button type="submit" class="btn btn-primary submit">Create comment</button>
+</form>

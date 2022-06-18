@@ -11,6 +11,7 @@ namespace Project_Z_Presentation.Controllers
         private CharacterContainer _characterContainer = new CharacterContainer(new CharacterSql());
         private TraitsContainer _traitsContainer = new TraitsContainer(new TraitsSql());
         private OccupationContainer _occupationContainer = new OccupationContainer(new OccupationSql());
+        private ReviewContainer _reviewContainer = new ReviewContainer(new ReviewSql());
         
         public bool LoggedIn()
         {
@@ -74,7 +75,17 @@ namespace Project_Z_Presentation.Controllers
             
             Character character = _characterContainer.GetCharacterbyID(characterID);
             List<TraitViewModel> traitViewModels = new List<TraitViewModel>();
+            List<ReviewViewModel> reviewViewModels = new List<ReviewViewModel>();
 
+            foreach (ReviewDTO review in character.Reviews)
+            {
+                reviewViewModels.Add(new ReviewViewModel
+                {
+                    UserName = review.UserName,
+                    Comment = review.Comment,
+                });
+            }
+            
             foreach (TraitDto trait in character.Traits)
             {
                 traitViewModels.Add(new TraitViewModel
@@ -105,11 +116,36 @@ namespace Project_Z_Presentation.Controllers
                 User = userViewModel,
                 Occupation = occupationViewModel,
                 Traits = traitViewModels,
+                Reviews = reviewViewModels,
             };
             
             ViewBag.Occupation = GetOccupation();
             ViewBag.Trait = GetTrait();
             return View(characterViewModel);
+        }
+
+        [HttpGet] 
+        public IActionResult Comment(int characterID)
+        {
+            ReviewViewModel reviewViewModel = new ReviewViewModel();
+            reviewViewModel.CharacterID = characterID;
+            return View(reviewViewModel);
+        }
+
+        [HttpPost] 
+        public IActionResult CreateComment(ReviewViewModel reviewViewModel, int characterID)
+        {
+            if (!LoggedIn())
+            {
+                return RedirectToAction("Login", "User");
+            }
+            
+            int userID = (int)HttpContext.Session.GetInt32("userID");
+
+            Review review = new Review(reviewViewModel.Rating, reviewViewModel.Comment);
+            _reviewContainer.CreateReview(review, characterID, userID);
+
+            return RedirectToAction("Index", "Browse");
         }
 
         public IActionResult DeleteCharacter(int characterID)

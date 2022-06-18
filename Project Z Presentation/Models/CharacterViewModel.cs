@@ -9,7 +9,8 @@
         public int[]? Arraytraits { get; set; }
         public List<TraitViewModel>? Traits { get; set; }
         public UserViewModel User { get; set; }
-        
+        public List<ReviewViewModel> Reviews { get; set; }
+
         public int OccupationID { get; set; }
     }
 }

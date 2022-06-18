@@ -7,6 +7,7 @@ namespace Project_Z_Database
     public class CharacterSql : SqlConnect, ICharacterContainer
     {
         private TraitsSql _traitsSql = new TraitsSql();
+        private ReviewSql _reviewSql = new ReviewSql();
         
         public CharacterSql()
         {
@@ -18,21 +19,19 @@ namespace Project_Z_Database
             try
             {
                 OpenConnect();
+
+                Cmd.CommandText = "INSERT INTO Characters (name, cost, occupationid, userid) output INSERTED.CharacterID VALUES(@Name, @Cost, @Occupation, @User)";
+                Cmd.Parameters.AddWithValue("@Name", dto.Name);
+                Cmd.Parameters.AddWithValue("@Cost", dto.Cost);
+                Cmd.Parameters.AddWithValue("@Occupation", dto.Occupations.OccupationID);
+                Cmd.Parameters.AddWithValue("@User", dto.User.UserID);
+                int characterID = (int)Cmd.ExecuteScalar();
+
+                foreach (int trait in dto.Arraytraits)
                 {
-
-                    Cmd.CommandText = "INSERT INTO Characters (name, cost, occupationid, userid) output INSERTED.CharacterID VALUES(@Name, @Cost, @Occupation, @User)";
-                    Cmd.Parameters.AddWithValue("@Name", dto.Name);
-                    Cmd.Parameters.AddWithValue("@Cost", dto.Cost);
-                    Cmd.Parameters.AddWithValue("@Occupation", dto.Occupations.OccupationID);
-                    Cmd.Parameters.AddWithValue("@User", dto.User.UserID);
-                    int characterID = (int)Cmd.ExecuteScalar();
-
-                    foreach (int trait in dto.Arraytraits)
-                    {
-                        _traitsSql.SaveTrait(trait, characterID);
-                    }
-                    return true;
+                    _traitsSql.SaveTrait(trait, characterID);
                 }
+                return true;
             }
             catch (SqlException)
             {
@@ -136,7 +135,7 @@ namespace Project_Z_Database
                 }
                 return list;
             }
-            catch (NullReferenceException)
+            catch (SqlException)
             {
                 throw new Exception("No data could be found");
             }
@@ -176,14 +175,16 @@ namespace Project_Z_Database
                         Name = rdr.GetString(4),
                     };
 
+                    List<ReviewDTO> reviews = _reviewSql.GetRating(characterID);
                     List<TraitDto>? traits = _traitsSql.GetTraitbyID(characterID);
                     character.Traits = traits;
                     character.Occupations = occupation;
                     character.User = user;
+                    character.Reviews = reviews;
                 }
                 return character;
             }
-            catch (NullReferenceException)
+            catch (SqlException)
             {
                 throw new Exception("No data could be found");
             }
