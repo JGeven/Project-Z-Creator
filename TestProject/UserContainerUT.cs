@@ -111,22 +111,5 @@ namespace TestProject
             Assert.AreEqual(expected.Email, actual.Email);
             Assert.AreEqual(expected.Password, actual.Password);
         }
-        
-        [TestMethod] public void Test_Login_False()
-        {
-            //Arrange
-            UserContainer container = new UserContainer(new UserDalStub());
-
-            User expected = new User();
-            expected.Email = "ditgaatfout@email.com";
-            expected.Password = "welkom";
-            
-
-            //Act
-            //Act is below with ExceptionCheck
-
-            //Assert
-            Assert.ThrowsException<NullReferenceException>(() => container.Login(expected.Email, expected.Password));
-        }
     }
 }
